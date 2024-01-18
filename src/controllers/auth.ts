@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 import { User } from "../entity/User";
 import { AppDataSource } from "../data-source";
 import { validationResult } from "express-validator";
 import axios from "axios";
 
-export const putSignup = async (req: Request, res: Response, next) => {
+export const putSignup = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -50,7 +50,7 @@ export const putSignup = async (req: Request, res: Response, next) => {
     }
 }
 
-export const postLogin = async (req: Request, res: Response, next: () => any) => {
+export const postLogin = async (req: Request, res: Response, next: NextFunction) => {
     const validationErrors = validationResult(req);
 
     if (!validationErrors.isEmpty()) {
@@ -91,12 +91,12 @@ const tokenUrl = 'https://oauth2.googleapis.com/token';
 const profileUrl = 'https://www.googleapis.com/oauth2/v1/userinfo';
 
 
-export const intiateGoogleLoginFlowHandler = async (req: Request, res: Response, next: () => any) => {
+export const intiateGoogleLoginFlowHandler = async (req: Request, res: Response, next: NextFunction) => {
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
     res.redirect(url);
 }
 
-export const googleResponseHandler = async (req: Request, res: Response, next) => {
+export const googleResponseHandler = async (req: Request, res: Response, next: NextFunction) => {
     const { code } = req.query;
 
     try {

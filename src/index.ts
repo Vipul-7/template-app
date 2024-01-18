@@ -1,6 +1,7 @@
 const express = require("express");
 import { AppDataSource } from "./data-source";
 import { default as authRoutes } from "./routes/auth";
+import { default as templateRoutes } from "./routes/template";
 
 import "reflect-metadata"; // This is required for typeorm to work
 
@@ -8,7 +9,9 @@ AppDataSource.initialize().then(async () => {
     const app = express();
 
     app.use(express.json());
+
     app.use("/auth", authRoutes)
+    app.use(templateRoutes)
 
     // app.use((error, req, res) => {
     //     const status = error.statusCode || 500;
