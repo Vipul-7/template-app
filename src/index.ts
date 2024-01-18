@@ -9,15 +9,13 @@ AppDataSource.initialize().then(async () => {
 
     app.use(express.json());
     app.use("/auth", authRoutes)
-    
-    app.use((error, req, res) => {
-        console.log(error);
-        const status = error.statusCode || 500;
-        const message = error.message;
-        // const data = error.data;
-        res.status(status).json({ message});
-    });
-    
+
+    // app.use((error, req, res) => {
+    //     const status = error.statusCode || 500;
+    //     const message = error.message;
+    //     res.status(status).json({ message });
+    // });
+
     app.listen(8080, () => {
         console.log("App is running at port 8080");
     })
