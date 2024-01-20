@@ -68,7 +68,7 @@ const LoginForm = (props: Props) => {
                             <Input type="email" id="email" placeholder="Email" onChange={formik.handleChange}
                                 value={formik.values.email} />
                             {formik.touched.email && formik.errors.email ? (
-                                <div className="text-red-500">{formik.errors.email}</div>
+                                <div className="text-xs text-red-500">{formik.errors.email}</div>
                             ) : null}
                         </div>
 
@@ -77,13 +77,16 @@ const LoginForm = (props: Props) => {
                             <Input type="password" id="password" placeholder="Password" onChange={formik.handleChange}
                                 value={formik.values.password} />
                             {formik.touched.password && formik.errors.password ? (
-                                <div className="text-red-500">{formik.errors.password}</div>
+                                <div className="text-xs text-red-500">{formik.errors.password}</div>
                             ) : null}
                         </div>
                     </div>
                 </form>
             </CardContent>
-            <CardFooter className="flex flex-col items-end space-y-2">
+            <CardFooter className="fflex justify-between items-end space-y-2 space-x-3">
+                <Link to="/signup" >
+                    <Button variant="secondary">Signup</Button>
+                </Link>
                 {!props.isSending && (
                     // <Button disabled={isNotValid || props.isSending}>Submit</Button>
                     <Button disabled={props.isSending} type="submit" form="loginForm">Submit</Button>
@@ -91,10 +94,10 @@ const LoginForm = (props: Props) => {
                 {props.isSending && (
                     <p>Loading...</p>
                 )}
-                <CardDescription className="">
-                    Don't have account?{" "}
+                {/* <CardDescription className="">
+                    Don't have an account?{" "}
                     <Link to="/signup" className="text-blue-500 underline">Signup</Link>
-                </CardDescription>
+                </CardDescription> */}
             </CardFooter>
         </Card>
     )

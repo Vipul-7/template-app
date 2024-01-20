@@ -22,10 +22,10 @@ const validate = (values: SignupInputs) => {
     const errors: SignupInputs = {};
 
     if (!values.firstName) {
-        errors.firstName = "Enter you firstName"
+        errors.firstName = "Enter your firstName"
     }
     if (!values.lastName) {
-        errors.lastName = "Enter you lastName"
+        errors.lastName = "Enter your lastName"
     }
 
     if (
@@ -78,7 +78,7 @@ const SignupForm = (props: Props) => {
                             <Input id="firstName" placeholder="First Name" onChange={formik.handleChange}
                                 value={formik.values.firstName} />
                             {formik.touched.firstName && formik.errors.firstName ? (
-                                <div className="text-red-500">{formik.errors.firstName}</div>
+                                <div className="text-xs text-red-500">{formik.errors.firstName}</div>
                             ) : null}
                         </div>
 
@@ -87,7 +87,7 @@ const SignupForm = (props: Props) => {
                             <Input id="lastName" placeholder="Last Name" onChange={formik.handleChange}
                                 value={formik.values.lastName} />
                             {formik.touched.lastName && formik.errors.lastName ? (
-                                <div className="text-red-500">{formik.errors.lastName}</div>
+                                <div className="text-xs text-red-500">{formik.errors.lastName}</div>
                             ) : null}
                         </div>
 
@@ -96,7 +96,7 @@ const SignupForm = (props: Props) => {
                             <Input type="email" id="email" placeholder="Email" onChange={formik.handleChange}
                                 value={formik.values.email} />
                             {formik.touched.email && formik.errors.email ? (
-                                <div className="text-red-500">{formik.errors.email}</div>
+                                <div className="text-xs text-red-500">{formik.errors.email}</div>
                             ) : null}
                         </div>
 
@@ -105,13 +105,17 @@ const SignupForm = (props: Props) => {
                             <Input type="password" id="password" placeholder="Password" onChange={formik.handleChange}
                                 value={formik.values.password} />
                             {formik.touched.password && formik.errors.password ? (
-                                <div className="text-red-500">{formik.errors.password}</div>
+                                <div className="text-xs text-red-500">{formik.errors.password}</div>
                             ) : null}
                         </div>
                     </div>
                 </form>
             </CardContent>
-            <CardFooter className="flex flex-col items-end space-y-2">
+            <CardFooter className="flex justify-between items-end space-y-2 space-x-3">
+                <Link to="/login" >
+                    <Button variant="secondary">Login</Button>
+                </Link>
+
                 {!props.isSending && (
                     // <Button disabled={isNotValid || props.isSending}>Submit</Button>
                     <Button disabled={props.isSending} type="submit" form="signupForm">Submit</Button>
@@ -119,10 +123,12 @@ const SignupForm = (props: Props) => {
                 {props.isSending && (
                     <p>Loading...</p>
                 )}
-                <CardDescription className="">
+                {/* <CardDescription className="">
                     Already have an account?{" "}
-                    <Link to="/login" className="text-blue-500 underline">Login</Link>
-                </CardDescription>
+                    <Link to="/login" >
+                        <Button variant="link">Login</Button>
+                    </Link>
+                </CardDescription> */}
             </CardFooter>
         </Card>
     );
