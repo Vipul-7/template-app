@@ -4,7 +4,7 @@ import { ModeToggle } from "./ModeToggle";
 
 const NavBar = () => {
     return (
-        <nav className="flex justify-between items-center w-full h-20 p-2 border-b">
+        <nav className="flex justify-between items-center w-full h-18 p-2 border-b">
             <Link to="/" ><div className="text-xl font-bold">Templates</div></Link>
             <div className="flex items-center space-x-4">
                 <Link to="/my-templates">

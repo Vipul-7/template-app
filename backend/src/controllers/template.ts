@@ -10,18 +10,18 @@ export const getTemplates = async (req: Request, res: Response, next: NextFuncti
 
     // pagination logic 
     const page = Number(req.query.page) || 1;
+    const templatesPerPage = 6;
 
     try {
         const [templates, count] = await templateRepository.findAndCount({
-            skip: (page - 1) * 10,
-            take: 6
+            skip: (page - 1) * templatesPerPage,
+            take: templatesPerPage,
+            relations: ["creator", "keywords"]
         });
-
-        console.log(templates, count);
 
         return res.status(200).json({
             templates,
-            count
+            totalPageCount: Math.ceil(count / templatesPerPage)
         });
 
     } catch (error) {

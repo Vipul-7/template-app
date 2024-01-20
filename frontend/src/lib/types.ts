@@ -9,3 +9,24 @@ export interface SignupInputs {
     firstName?: string,
     lastName?: string
 }
+
+export interface TemplateData {
+    id: number,
+    title: string,
+    description: string,
+    creator: User,
+    keywords: TemplateKeyword[],
+}
+
+export interface User {
+    id: number,
+    email: string,
+    firstName: string,
+    lastName: string,
+    templates: TemplateData[],
+}
+
+export interface TemplateKeyword {
+    id: number,
+    value: string,
+}
