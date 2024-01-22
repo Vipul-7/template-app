@@ -4,6 +4,7 @@ import { Template } from "../entity/Template";
 import { request } from "../util/Request";
 import { TemplateKeyword } from "../entity/TemplateKeyword";
 import { User } from "../entity/User";
+import { validationResult } from "express-validator";
 
 export const getTemplates = async (req: Request, res: Response, next: NextFunction) => {
     const templateRepository = AppDataSource.getRepository(Template);
@@ -37,6 +38,15 @@ export const createTemplate = async (req: request, res: Response, next: NextFunc
     if (!req.isAuth) {
         return res.status(401).json({
             message: "not authenticated"
+        })
+    }
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({
+            message: "Invalid input",
+            errors: errors.array()
         })
     }
 

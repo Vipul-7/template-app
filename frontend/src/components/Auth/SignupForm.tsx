@@ -65,7 +65,7 @@ const SignupForm = (props: Props) => {
     return (
         <Card className="w-[350px]">
             <CardHeader>
-                <CardTitle>Signup</CardTitle>
+                <CardTitle>Create an account</CardTitle>
                 <CardDescription>
                     Signup to get access for creating or editing the templates
                 </CardDescription>
@@ -75,7 +75,7 @@ const SignupForm = (props: Props) => {
                     <div className="grid w-full gap-4">
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="firstName" className="flex justify-start">First Name</Label>
-                            <Input id="firstName" placeholder="First Name" onChange={formik.handleChange}
+                            <Input id="firstName" placeholder="John" onChange={formik.handleChange}
                                 value={formik.values.firstName} />
                             {formik.touched.firstName && formik.errors.firstName ? (
                                 <div className="text-xs text-red-500">{formik.errors.firstName}</div>
@@ -84,7 +84,7 @@ const SignupForm = (props: Props) => {
 
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="lastName" className="flex justify-start">Last Name</Label>
-                            <Input id="lastName" placeholder="Last Name" onChange={formik.handleChange}
+                            <Input id="lastName" placeholder="Doe" onChange={formik.handleChange}
                                 value={formik.values.lastName} />
                             {formik.touched.lastName && formik.errors.lastName ? (
                                 <div className="text-xs text-red-500">{formik.errors.lastName}</div>
@@ -93,7 +93,7 @@ const SignupForm = (props: Props) => {
 
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="email" className="flex justify-start">Email</Label>
-                            <Input type="email" id="email" placeholder="Email" onChange={formik.handleChange}
+                            <Input type="email" id="email" placeholder="m@example.com" onChange={formik.handleChange}
                                 value={formik.values.email} />
                             {formik.touched.email && formik.errors.email ? (
                                 <div className="text-xs text-red-500">{formik.errors.email}</div>
@@ -102,7 +102,7 @@ const SignupForm = (props: Props) => {
 
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="password" className="flex justify-start">Password</Label>
-                            <Input type="password" id="password" placeholder="Password" onChange={formik.handleChange}
+                            <Input type="password" id="password" placeholder="Atleast 5 characters long" onChange={formik.handleChange}
                                 value={formik.values.password} />
                             {formik.touched.password && formik.errors.password ? (
                                 <div className="text-xs text-red-500">{formik.errors.password}</div>

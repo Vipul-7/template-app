@@ -1,8 +1,17 @@
 import { TemplateData } from '@/lib/types'
+import { CardTemplate } from './CardTemplate'
 
-const ShowTemplates = (props : TemplateData) => {
+interface Props {
+  data: TemplateData[]
+}
+
+const ShowTemplates = (props: Props) => {
   return (
-    <div>ShowTemplates</div>
+    <div className="grid grid-cols-3 gap-4">
+      {props.data.map((item) => (
+        <CardTemplate key={item.id} template={item} />
+      ))}
+    </div>
   )
 }
 

@@ -55,7 +55,7 @@ const LoginForm = (props: Props) => {
     return (
         <Card className="w-[350px]">
             <CardHeader>
-                <CardTitle>Login</CardTitle>
+                <CardTitle>Welcome back</CardTitle>
                 <CardDescription>
                     Login to get access for creating or editing the templates
                 </CardDescription>
@@ -65,7 +65,7 @@ const LoginForm = (props: Props) => {
                     <div className="grid w-full gap-4">
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="email" className="flex justify-start">Email</Label>
-                            <Input type="email" id="email" placeholder="Email" onChange={formik.handleChange}
+                            <Input type="email" id="email" placeholder="m@example.com" onChange={formik.handleChange}
                                 value={formik.values.email} />
                             {formik.touched.email && formik.errors.email ? (
                                 <div className="text-xs text-red-500">{formik.errors.email}</div>
@@ -74,7 +74,7 @@ const LoginForm = (props: Props) => {
 
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="password" className="flex justify-start">Password</Label>
-                            <Input type="password" id="password" placeholder="Password" onChange={formik.handleChange}
+                            <Input type="password" id="password" placeholder="Atleast 5 characters long" onChange={formik.handleChange}
                                 value={formik.values.password} />
                             {formik.touched.password && formik.errors.password ? (
                                 <div className="text-xs text-red-500">{formik.errors.password}</div>

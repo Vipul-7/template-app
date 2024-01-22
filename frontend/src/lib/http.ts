@@ -4,14 +4,12 @@ import { LoginInputs, SignupInputs } from "./types";
 
 export const queryClient = new QueryClient();
 
-export const getTemplates = async ({ pageQuery: number, signal }) => {
+export const getTemplates = async ({ pageQuery , signal}: { pageQuery: number, signal: any }) => {
     const response = await axios({
         url: `http://localhost:8080/templates/?page=${pageQuery}`,
         method: "GET",
-        signal
+        signal : signal
     })
-
-    console.log(response.data);
 
     return response.data;
 }
