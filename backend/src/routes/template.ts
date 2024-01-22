@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createTemplate, editTemplate, getTemplates } from "../controllers/template";
+import { createTemplate, deleteTemplate, editTemplate, getTemplates } from "../controllers/template";
 import auth from "../middleware/auth";
 import { body } from "express-validator";
 
@@ -14,5 +14,7 @@ router.post("/template/create", auth, [
 ], createTemplate);
 
 router.patch("/template/edit/:templateId", auth, editTemplate);
+
+router.post("/template/delete/:templateId", auth, deleteTemplate);
 
 export default router;

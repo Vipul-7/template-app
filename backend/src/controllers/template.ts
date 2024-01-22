@@ -175,3 +175,36 @@ export const editTemplate = async (req: request, res: Response, next: NextFuncti
         })
     }
 }
+
+export const deleteTemplate = async (req: request, res: Response, next: NextFunction) => {
+    try {
+        if (!req.isAuth) {
+            return res.status(401).json({ message: 'Not authenticated' });
+        }
+
+        const templateId = req.params.templateId;
+        const templateRepository = AppDataSource.getRepository(Template);
+
+        const resp = await templateRepository.delete({
+            id: Number(templateId),
+            creator: {
+                id: req.userId,
+            },
+        });
+
+        if (resp.affected === 0) {
+            return res.status(404).json({
+                message: 'Template not found',
+            });
+        }
+
+        return res.status(200).json({
+            message: 'Template deleted successfully',
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: 'Error while deleting template',
+        });
+    }
+}
