@@ -30,3 +30,9 @@ export interface TemplateKeyword {
     id: number,
     value: string,
 }
+export interface TokenData {
+    email?: string,
+    exp?: number,
+    iat?: number,
+    userId?: number
+}

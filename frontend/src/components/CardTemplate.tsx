@@ -20,7 +20,6 @@ interface CardTemplateProps extends CardProps {
 
 
 export function CardTemplate({ className, template, ...props }: CardTemplateProps) {
-    console.log(template.description.trim().length)
     return (
         <Card className={cn("w-[380px]", className)} {...props}>
             <CardHeader>

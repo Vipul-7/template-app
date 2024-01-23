@@ -1,12 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from "typeorm"
 import { Template } from "./Template"
 
 @Entity()
-export class User{
+export class User {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({unique : true})
+    @Column({ unique: true })
     email: string
 
     @Column()
@@ -19,8 +19,11 @@ export class User{
     password: string
 
     @Column({ default: false })
-    signedInWithGoogle : boolean
+    signedInWithGoogle: boolean
 
     @OneToMany(() => Template, template => template.creator)
     templates: Template[];
+
+    @CreateDateColumn()
+    createdAt: Date
 }
