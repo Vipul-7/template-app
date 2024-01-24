@@ -26,6 +26,7 @@ const NavBar = () => {
     return (
         <nav className="flex justify-between items-center w-full h-18 p-2 border-b">
             <Link to="/" ><div className="text-xl font-bold">Templates</div></Link>
+            <Link to="/create-template"> <Button variant="default" className="flex items-center"><span className="text-2xl font-light">+&nbsp;</span>Create Template</Button></Link>
             <div className="flex items-center space-x-4">
                 <Link to="/my-templates">
                     {/* <div className="text-sm text-gray-600">Your templates</div> */}
