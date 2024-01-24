@@ -25,7 +25,7 @@ const HomePage = () => {
         isFetching,
         isPlaceholderData,
     } = useQuery({
-        queryKey: ["templates", pageQuery],
+        queryKey: ["template", pageQuery],
         queryFn: ({ signal }) => getTemplates({ pageQuery, signal }),
         placeholderData: keepPreviousData,
     });

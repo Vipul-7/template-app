@@ -10,6 +10,12 @@ export interface SignupInputs {
     lastName?: string
 }
 
+export interface TemplateInputs {
+    title?: string,
+    description?: string,
+    tags?: string[]
+}
+
 export interface TemplateData {
     id: number,
     title: string,

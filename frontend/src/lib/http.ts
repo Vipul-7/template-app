@@ -1,14 +1,32 @@
 import { QueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { LoginInputs, SignupInputs } from "./types";
+import { LoginInputs, SignupInputs, TemplateData, TemplateInputs } from "./types";
 
 export const queryClient = new QueryClient();
 
-export const getTemplates = async ({ pageQuery , signal}: { pageQuery: number, signal: any }) => {
+export const getTemplates = async ({ pageQuery, signal }: { pageQuery: number, signal: any }) => {
     const response = await axios({
         url: `http://localhost:8080/templates/?page=${pageQuery}`,
         method: "GET",
-        signal : signal
+        signal: signal
+    })
+
+    return response.data;
+}
+
+export const createTemplate = async (templateData: TemplateInputs) => {
+    console.log(templateData);
+    const response = await axios({
+        url: "http://localhost:8080/template/create",
+        method: "POST",
+        data: {
+            title: templateData.title,
+            description: templateData.description,
+            keywords: templateData.tags
+        },
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
     })
 
     return response.data;
