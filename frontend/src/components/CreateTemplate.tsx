@@ -9,7 +9,6 @@ import CrossIcon from "./ui/icons/CrossIcon"
 import { TemplateInputs } from "@/lib/types"
 import { useFormik } from "formik"
 import { useNavigate } from "react-router"
-import { toast } from "sonner"
 
 interface TemplateInputsErrors {
     title?: string;

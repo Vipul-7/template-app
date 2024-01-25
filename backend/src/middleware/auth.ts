@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { request } from "../util/Request";
 const jwt = require("jsonwebtoken");
 
+require("dotenv").config({ path: "../../.env" });
+
 const auth = (req: request, res: Response, next: () => any) => {
     const authHeader = req.get("Authorization");
 
@@ -14,7 +16,7 @@ const auth = (req: request, res: Response, next: () => any) => {
     let decodedToken;
 
     try {
-        decodedToken = jwt.verify(token, "somesecretkey");
+        decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
     } catch (err) {
         // err.statusCode = 500;
         // throw err;

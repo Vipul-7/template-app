@@ -7,6 +7,8 @@ import { AppDataSource } from "../data-source";
 import { validationResult } from "express-validator";
 import axios from "axios";
 
+require("dotenv").config({path : "../../.env"});
+
 export const putSignup = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 
@@ -75,7 +77,7 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     const token = jwt.sign({
         email: user.email,
         userId: user.id
-    }, "somesecretkey", {
+    }, process.env.JWT_SECRET_KEY, {
         expiresIn: "1h"
     });
 
@@ -84,11 +86,11 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 
 // google auth
 
-const CLIENT_ID = '94923572261-c697060agl6p91jf5t9lr39i5am9su1d.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
-const REDIRECT_URI = 'http://localhost:8080/auth/google/callback';
-const tokenUrl = 'https://oauth2.googleapis.com/token';
-const profileUrl = 'https://www.googleapis.com/oauth2/v1/userinfo';
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const tokenUrl = process.env.TOKEN_URL;
+const profileUrl = process.env.PROFILE_URL;
 
 
 export const intiateGoogleLoginFlowHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -136,7 +138,7 @@ export const googleResponseHandler = async (req: Request, res: Response, next: N
             const token = jwt.sign({
                 email: createdUser.email,
                 userId: createdUser.id
-            }, "somesecretkey", {
+            }, process.env.JWT_SECRET_KEY, {
                 expiresIn: "1h"
             });
 
@@ -146,7 +148,7 @@ export const googleResponseHandler = async (req: Request, res: Response, next: N
             const token = jwt.sign({
                 email: user.email,
                 userId: user.id
-            }, "somesecretkey", {
+            }, process.env.JWT_SECRET_KEY, {
                 expiresIn: "1h"
             });
 
