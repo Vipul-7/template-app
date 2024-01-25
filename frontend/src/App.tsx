@@ -11,6 +11,7 @@ import MyTemplatesPage from './pages/MyTemplates'
 import { ThemeProvider } from './components/ThemeProvider'
 import React, { useState } from 'react'
 import CreateTemplatePage from './pages/CreateTemplatePage'
+import ProtectedRoute from './components/ProtectedRoute'
 
 export const authContext = React.createContext({
   isAuth: false,
@@ -31,8 +32,8 @@ function App() {
                 <Route index={true} element={<HomePage />}></Route>
                 <Route path='signup' element={<SignupPage />}></Route>
                 <Route path='login' element={<LoginPage />}></Route>
-                <Route path='my-templates' element={<MyTemplatesPage />}></Route>
-                <Route path='create-template' element={<CreateTemplatePage />} ></Route>
+                <Route path='my-templates' element={<ProtectedRoute Component={MyTemplatesPage} />}></Route>
+                <Route path='create-template' element={<ProtectedRoute Component={CreateTemplatePage} />} ></Route>
               </Route>
             </Routes>
           </BrowserRouter>

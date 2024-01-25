@@ -1,7 +1,9 @@
+import { authContext } from "@/App";
 import CreateTemplate from "@/components/CreateTemplate"
 import { createTemplate } from "@/lib/http"
 import { TemplateInputs } from "@/lib/types";
 import { useMutation } from "@tanstack/react-query"
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const CreateTemplatePage = () => {

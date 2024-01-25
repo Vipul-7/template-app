@@ -33,10 +33,10 @@ const NavBar = () => {
                     &nbsp;Create Template</Button>
             </Link>
             <div className="flex items-center space-x-4 flex-[0.3%] justify-end">
-                {isAuth && <Link to="/my-templates">
+                <Link to="/my-templates">
                     {/* <div className="text-sm text-gray-600">Your templates</div> */}
                     <Button variant="ghost">Your Templates</Button>
-                </Link>}
+                </Link>
                 <ModeToggle />
                 {!tokenData && <Link to="/login">
                     <Button>Sign-in</Button>
