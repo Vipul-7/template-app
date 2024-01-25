@@ -17,6 +17,6 @@ router.post("/template/create", auth, [
 
 router.patch("/template/edit/:templateId", auth, editTemplate);
 
-router.post("/template/delete/:templateId", auth, deleteTemplate);
+router.delete("/template/delete/:templateId", auth, deleteTemplate);
 
 export default router;

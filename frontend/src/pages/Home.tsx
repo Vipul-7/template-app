@@ -33,6 +33,7 @@ const HomePage = () => {
             isPending={isPending}
             isError={isError}
             error={error}
+            type="common"
         />
     )
 };

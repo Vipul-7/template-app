@@ -28,7 +28,6 @@ export const getUserTemplates = async ({ pageQuery, signal }: { pageQuery: numbe
 }
 
 export const createTemplate = async (templateData: TemplateInputs) => {
-    console.log(templateData);
     const response = await axios({
         url: "http://localhost:8080/template/create",
         method: "POST",
@@ -41,6 +40,20 @@ export const createTemplate = async (templateData: TemplateInputs) => {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
     })
+
+    return response.data;
+}
+
+export const deleteTemplate = async (templateId: number) => {
+    console.log("deletion intiated");
+    
+    const response = await axios({
+        url: `http://localhost:8080/template/delete/${templateId}`,
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+    });
 
     return response.data;
 }

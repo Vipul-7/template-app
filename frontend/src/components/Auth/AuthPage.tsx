@@ -12,16 +12,18 @@ import { authContext } from "@/App";
 const AuthPage = (props: { auth: string }) => {
   const { setIsAuth } = useContext(authContext);
   const navigate = useNavigate();
-  
+
   const { mutate: loginMutate, isPending: isLoginPending, isError: isLoginError, error: loginError } = useMutation({
     mutationFn: login,
-    onSuccess: (data: { token: string }) => {
+    onSuccess: (data: { token: string, userId: string }) => {
       // if (data.error) {
       //   window.alert(data.error);
       // }
 
+      console.log(data);
       if (data.token) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.userId)
         setIsAuth(true);
         navigate("/");
       }

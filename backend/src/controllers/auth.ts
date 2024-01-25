@@ -79,7 +79,7 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
         expiresIn: "1h"
     });
 
-    res.status(200).json({ token })
+    res.status(200).json({ token, userId: user.id })
 }
 
 // google auth

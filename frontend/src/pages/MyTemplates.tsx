@@ -33,6 +33,7 @@ const MyTemplatesPage = () => {
             isPending={isPending}
             isError={isError}
             error={error}
+            type="user"
         />
     );
 }

@@ -9,6 +9,7 @@ import CrossIcon from "./ui/icons/CrossIcon"
 import { TemplateInputs } from "@/lib/types"
 import { useFormik } from "formik"
 import { useNavigate } from "react-router"
+import { toast } from "sonner"
 
 interface TemplateInputsErrors {
     title?: string;
@@ -127,13 +128,14 @@ const CreateTemplate = (props: Props) => {
                     <div className="text-xs text-red-500 flex justify-start">{formik.errors.tags}</div>
                 ) : null}
             </div>
+
             <div className="flex justify-start gap-4">
-                {props.isSubmissionError &&
-                    <div className="text-xs text-red-500 flex justify-start">
-                        {props.submissionError?.message}
-                    </div>}
                 <Button type="submit" disabled={props.isSending || !formik.isValid}>Save</Button>
                 <Button variant="outline" onClick={() => navigate("/")}>Cancel</Button>
+                {props.isSubmissionError &&
+                    <div className="text-xs text-red-500 flex justify-start items-center">
+                        {props.submissionError?.message}
+                    </div>}
             </div>
         </form>
     )

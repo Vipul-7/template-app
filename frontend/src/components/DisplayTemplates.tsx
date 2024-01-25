@@ -16,9 +16,10 @@ interface Props {
     isPending: boolean;
     isError: boolean;
     error: any;
+    type: string;
 }
 
-const DisplayTemplates = ({ pageQuery, setPageQuery, totalPages, data, isPending, isError, error }: Props) => {
+const DisplayTemplates = ({ pageQuery, setPageQuery, totalPages, type, data, isPending, isError, error }: Props) => {
     return (
         <div className="p-4" >
             {isPending ? (
@@ -31,7 +32,7 @@ const DisplayTemplates = ({ pageQuery, setPageQuery, totalPages, data, isPending
                         <>
                             {<div className="grid grid-cols-3 gap-4">
                                 {data.templates.map((item: TemplateData) => (
-                                    <CardTemplate key={item.id} template={item} />
+                                    <CardTemplate key={item.id} template={item} pageQuery={pageQuery} type={type} />
                                 ))}
                             </div>}
                             <div className="p-2 my-2">
