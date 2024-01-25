@@ -6,12 +6,13 @@ import { TemplateKeyword } from "../entity/TemplateKeyword";
 import { User } from "../entity/User";
 import { validationResult } from "express-validator";
 
+const templatesPerPage = 6;
+
 export const getTemplates = async (req: Request, res: Response, next: NextFunction) => {
     const templateRepository = AppDataSource.getRepository(Template);
 
     // pagination logic 
     const page = Number(req.query.page) || 1;
-    const templatesPerPage = 6;
 
     try {
         const [templates, count] = await templateRepository.findAndCount({
@@ -32,6 +33,42 @@ export const getTemplates = async (req: Request, res: Response, next: NextFuncti
         })
     }
 
+}
+
+export const getUserTemplates = async (req: request, res: Response, next: NextFunction) => {
+    if (!req.isAuth) {
+        return res.status(401).json({
+            message: "not authenticated"
+        })
+    }
+
+    const page = Number(req.query.page) || 1;
+
+    try {
+        const templateRepository = AppDataSource.getRepository(Template);
+
+        const [userTemplates, count] = await templateRepository.findAndCount({
+            where: {
+                creator: {
+                    id: req.userId
+                }
+            },
+            skip: (page - 1) * templatesPerPage,
+            take: templatesPerPage,
+            relations: ["creator", "keywords"]
+        });
+
+        return res.status(200).json({
+            templates: userTemplates,
+            totalPageCount: Math.ceil(count / templatesPerPage)
+        })
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: "Error while fetching user templates"
+        })
+    }
 }
 
 export const createTemplate = async (req: request, res: Response, next: NextFunction) => {

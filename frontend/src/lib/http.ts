@@ -14,6 +14,19 @@ export const getTemplates = async ({ pageQuery, signal }: { pageQuery: number, s
     return response.data;
 }
 
+export const getUserTemplates = async ({ pageQuery, signal }: { pageQuery: number, signal: any }) => {
+    const response = await axios({
+        method: "GET",
+        url: `http://localhost:8080/templates/user?page=${pageQuery}`,
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        signal: signal
+    })
+
+    return response.data;
+}
+
 export const createTemplate = async (templateData: TemplateInputs) => {
     console.log(templateData);
     const response = await axios({

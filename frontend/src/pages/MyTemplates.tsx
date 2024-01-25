@@ -1,7 +1,40 @@
+import DisplayTemplates from "@/components/DisplayTemplates";
+import { getUserTemplates } from "@/lib/http";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+
 const MyTemplatesPage = () => {
+    const [pageQuery, setPageQuery] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+
+    const {
+        isPending,
+        isError,
+        error,
+        data,
+    } = useQuery({
+        queryKey: ["template", localStorage.getItem("userId"), pageQuery],
+        queryFn: ({ signal }) => getUserTemplates({ pageQuery, signal }),
+        placeholderData: keepPreviousData,
+    });
+
+    useEffect(() => {
+        if (data) {
+            setTotalPages(data.totalPageCount);
+        }
+    }, [data]);
+
     return (
-        <div>MyTemplates</div>
-    )
+        <DisplayTemplates
+            pageQuery={pageQuery}
+            setPageQuery={setPageQuery}
+            totalPages={totalPages}
+            data={data}
+            isPending={isPending}
+            isError={isError}
+            error={error}
+        />
+    );
 }
 
 export default MyTemplatesPage
