@@ -7,6 +7,7 @@ import { LoginInputs, SignupInputs } from "@/lib/types";
 // import { authContext } from "@/App";
 import React, { useContext, useState } from "react";
 import { authContext } from "@/App";
+import { Separator } from "@radix-ui/react-dropdown-menu";
 
 
 const AuthPage = (props: { auth: string }) => {

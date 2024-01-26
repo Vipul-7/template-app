@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { SignupInputs } from "@/lib/types";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
+import GoogleAuth from "./GoogleAuth";
 
 interface Props {
     onSubmit: (values: SignupInputs) => void,
@@ -130,6 +131,7 @@ const SignupForm = (props: Props) => {
                     </Link>
                 </CardDescription> */}
             </CardFooter>
+            <GoogleAuth />
         </Card>
     );
 };

@@ -7,7 +7,7 @@ import { AppDataSource } from "../data-source";
 import { validationResult } from "express-validator";
 import axios from "axios";
 
-require("dotenv").config({path : "../../.env"});
+require("dotenv").config({ path: "../../.env" });
 
 export const putSignup = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
@@ -92,7 +92,6 @@ const REDIRECT_URI = process.env.REDIRECT_URI;
 const tokenUrl = process.env.TOKEN_URL;
 const profileUrl = process.env.PROFILE_URL;
 
-
 export const intiateGoogleLoginFlowHandler = async (req: Request, res: Response, next: NextFunction) => {
     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
     res.redirect(url);
@@ -142,7 +141,7 @@ export const googleResponseHandler = async (req: Request, res: Response, next: N
                 expiresIn: "1h"
             });
 
-            return res.status(200).json({ token })
+            return res.status(200).json({ token, userId: user.id })
         }
         else if (user && user.signedInWithGoogle) {
             const token = jwt.sign({
@@ -152,10 +151,10 @@ export const googleResponseHandler = async (req: Request, res: Response, next: N
                 expiresIn: "1h"
             });
 
-            return res.status(200).json({ token })
+            return res.status(200).json({ token, userId: user.id })
         }
         else if (user && !user.signedInWithGoogle) {
-            return res.status(401).json({ message: "User already exists! please try again with entering email and password." });
+            return res.status(401).json({ message: "User already exists! please try again with entering email and password manually." });
         }
     } catch (error) {
         console.error('Error:', error);

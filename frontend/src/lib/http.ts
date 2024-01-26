@@ -46,7 +46,7 @@ export const createTemplate = async (templateData: TemplateInputs) => {
 
 export const deleteTemplate = async (templateId: number) => {
     console.log("deletion intiated");
-    
+
     const response = await axios({
         url: `http://localhost:8080/template/delete/${templateId}`,
         method: "DELETE",
@@ -76,4 +76,14 @@ export const signup = async (singupData: SignupInputs) => {
     })
 
     return reponse.data;
+}
+
+export const googleSignIn = async ({ signal }: { signal: any }) => {
+    const response = await axios({
+        url: "http://localhost:8080/auth/google",
+        method: "GET",
+        signal
+    });
+
+    return response.data;
 }
