@@ -6,6 +6,7 @@ import { User } from "../entity/User";
 import { AppDataSource } from "../data-source";
 import { validationResult } from "express-validator";
 import axios from "axios";
+import { OAuth2Client } from "google-auth-library";
 
 require("dotenv").config({ path: "../../.env" });
 
@@ -88,36 +89,26 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-const tokenUrl = process.env.TOKEN_URL;
+// const REDIRECT_URI = process.env.REDIRECT_URI;
+// const tokenUrl = process.env.TOKEN_URL;
 const profileUrl = process.env.PROFILE_URL;
 
-export const intiateGoogleLoginFlowHandler = async (req: Request, res: Response, next: NextFunction) => {
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
-    res.redirect(url);
-}
+// export const intiateGoogleLoginFlowHandler = async (req: Request, res: Response, next: NextFunction) => {
+//     const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
+//     res.redirect(url);
+// }
 
-export const googleResponseHandler = async (req: Request, res: Response, next: NextFunction) => {
-    const { code } = req.query;
+const oAuth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, "postmessage")
+
+export const googleSignIn = async (req: Request, res: Response, next: NextFunction) => {
+    const code = req.body.code;
+    const { tokens } = await oAuth2Client.getToken(code);
+
+    const { data: profile } = await axios.get(profileUrl, {
+        headers: { Authorization: `Bearer ${tokens.access_token}` },
+    });
 
     try {
-        // Exchange authorization code for access token
-        const { data } = await axios.post(tokenUrl, {
-            client_id: CLIENT_ID,
-            client_secret: CLIENT_SECRET,
-            code,
-            redirect_uri: REDIRECT_URI,
-            grant_type: 'authorization_code',
-        });
-
-        const { access_token, id_token } = data;
-
-        // Use access_token or id_token to fetch user profile
-        const { data: profile } = await axios.get(profileUrl, {
-            headers: { Authorization: `Bearer ${access_token}` },
-        });
-
-        // console.log(profile);
 
         const userRepository = AppDataSource.getRepository(User);
 
@@ -141,7 +132,7 @@ export const googleResponseHandler = async (req: Request, res: Response, next: N
                 expiresIn: "1h"
             });
 
-            return res.status(200).json({ token, userId: user.id })
+            return res.status(200).json({ message: "Signup Successfully", token, userId: user.id })
         }
         else if (user && user.signedInWithGoogle) {
             const token = jwt.sign({
@@ -151,7 +142,7 @@ export const googleResponseHandler = async (req: Request, res: Response, next: N
                 expiresIn: "1h"
             });
 
-            return res.status(200).json({ token, userId: user.id })
+            return res.status(200).json({ message: "Signin Successfully", token, userId: user.id })
         }
         else if (user && !user.signedInWithGoogle) {
             return res.status(401).json({ message: "User already exists! please try again with entering email and password manually." });

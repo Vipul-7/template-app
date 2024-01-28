@@ -78,12 +78,18 @@ export const signup = async (singupData: SignupInputs) => {
     return reponse.data;
 }
 
-export const googleSignIn = async ({ signal }: { signal: any }) => {
-    const response = await axios({
-        url: "http://localhost:8080/auth/google",
-        method: "GET",
-        signal
-    });
+export const googleSignIn = async ({ code }: { code: any }) => {
+    try {
+        const response = await axios({
+            url: "http://localhost:8080/auth/google",
+            method: "POST",
+            data: { code }
+        })
 
-    return response.data;
+        return response.data;
+    }
+    catch (error) {
+        console.log(error);
+        throw error
+    }
 }

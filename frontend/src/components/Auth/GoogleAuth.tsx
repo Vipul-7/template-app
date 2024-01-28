@@ -6,34 +6,34 @@ import { googleSignIn, queryClient } from "@/lib/http"
 import { useContext, useState } from "react"
 import { authContext } from "@/App"
 import { useNavigate } from "react-router"
+import { useGoogleLogin } from "@react-oauth/google"
+import { useToast } from "../ui/use-toast"
 
 const GoogleAuth = () => {
-    const [callQuery, setCallQuery] = useState(false);
+    const { toast } = useToast();
     const { setIsAuth } = useContext(authContext);
     const navigate = useNavigate();
 
-    const { data, isPending, isError, error } = useQuery({
-        queryFn: ({ signal }) => googleSignIn({ signal }),
-        queryKey: ["user"],
-        enabled: callQuery
-    });
+    const login = useGoogleLogin({
+        onSuccess: async ({ code }) => {
+            const data = await googleSignIn({ code });
 
-    const googleAuthClickHandler = () => {
-        setCallQuery(true);
-        console.log(error);
+            if (data) {
+                toast({
+                    title: data.message,
+                })
+                if (data.token) {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("userId", data.userId)
+                    setIsAuth(true);
+                    navigate("/");
+                }
 
-        if (!isPending && !isError && data) {
-            console.log(data);
-            if (data.token) {
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("userId", data.userId)
-                setIsAuth(true);
-                navigate("/");
+                queryClient.invalidateQueries({ queryKey: ["user"] });
             }
-
-            queryClient.invalidateQueries({ queryKey: ["user"] });
-        }
-    }
+        },
+        flow: "auth-code"
+    })
 
     return (
         <div className="px-7">
@@ -43,11 +43,11 @@ const GoogleAuth = () => {
                 <Separator className="w-[25%] h-[1px] bg-[#A1A1AA]" />
             </div>
 
-            <Button variant="outline" className="w-full mt-5 mb-7" onClick={googleAuthClickHandler}>
+            <Button variant="outline" className="w-full mt-5 mb-7" onClick={() => login()}>
                 <GoogleIcon className="w-5 h-5 mr-2 fill-white" />
                 <span>Google</span>
             </Button>
-            {isError && <div className="text-red-50">{error.message}</div>}
+            {/* {isError && <div className="text-red-50">{error.message}</div>} */}
         </div>
     )
 }

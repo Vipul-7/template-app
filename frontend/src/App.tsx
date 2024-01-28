@@ -13,6 +13,9 @@ import React, { useState } from 'react'
 import CreateTemplatePage from './pages/CreateTemplatePage'
 import ProtectedRoute from './components/ProtectedRoute'
 import TemplatePage from './pages/Template'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID!;
 
 export const authContext = React.createContext({
   isAuth: false,
@@ -23,26 +26,27 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
 
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      {/* {children} */}
-      <authContext.Provider value={{ isAuth, setIsAuth }}>
-        <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<RootLayout />}>
-                <Route index={true} element={<HomePage />}></Route>
-                <Route path='signup' element={<SignupPage />}></Route>
-                <Route path='login' element={<LoginPage />}></Route>
-                <Route path='template/:templateId' element={<TemplatePage />}></Route>
-                <Route path='my-templates' element={<ProtectedRoute Component={MyTemplatesPage} />}></Route>
-                <Route path='create-template' element={<ProtectedRoute Component={CreateTemplatePage} />} ></Route>
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </QueryClientProvider>
-      </authContext.Provider>
-
-    </ThemeProvider>
+    <GoogleOAuthProvider clientId={CLIENT_ID}>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        {/* {children} */}
+        <authContext.Provider value={{ isAuth, setIsAuth }}>
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<RootLayout />}>
+                  <Route index={true} element={<HomePage />}></Route>
+                  <Route path='signup' element={<SignupPage />}></Route>
+                  <Route path='login' element={<LoginPage />}></Route>
+                  <Route path='template/:templateId' element={<TemplatePage />}></Route>
+                  <Route path='my-templates' element={<ProtectedRoute Component={MyTemplatesPage} />}></Route>
+                  <Route path='create-template' element={<ProtectedRoute Component={CreateTemplatePage} />} ></Route>
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </QueryClientProvider>
+        </authContext.Provider>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   )
 }
 

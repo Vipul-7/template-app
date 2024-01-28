@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { googleResponseHandler, intiateGoogleLoginFlowHandler, postLogin, putSignup } from "../controllers/auth";
+import { googleSignIn, postLogin, putSignup } from "../controllers/auth";
 import { body } from "express-validator";
 import { AppDataSource } from "../data-source";
 import { User } from "../entity/User";
@@ -51,12 +51,8 @@ router.post("/login", [
 ], postLogin);
 
 
-// google auth
+// google auth validate tokens 
 
-// Initiates the Google Login flow
-router.get("/google", intiateGoogleLoginFlowHandler);
-
-// Callback URL for handling the Google Login response
-router.get("/google/callback", googleResponseHandler);
+router.post("/google", googleSignIn);
 
 export default router;
