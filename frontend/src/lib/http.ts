@@ -45,8 +45,6 @@ export const createTemplate = async (templateData: TemplateInputs) => {
 }
 
 export const deleteTemplate = async (templateId: number) => {
-    console.log("deletion intiated");
-
     const response = await axios({
         url: `http://localhost:8080/template/delete/${templateId}`,
         method: "DELETE",

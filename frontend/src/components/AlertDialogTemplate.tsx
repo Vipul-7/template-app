@@ -9,8 +9,9 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Button } from "./ui/button"
 
-const AlertDialogTemplate = ({ children, deleteTemplateHandler }: { children: any, deleteTemplateHandler: () => any }) => {
+const AlertDialogTemplate = ({ children, deleteTemplateHandler, dialogDescription }: { children: any, deleteTemplateHandler: () => any, dialogDescription: string }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger>
@@ -20,12 +21,14 @@ const AlertDialogTemplate = ({ children, deleteTemplateHandler }: { children: an
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the template and you will not be able to recover it.
+                        {dialogDescription}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={deleteTemplateHandler}>Continue</AlertDialogAction>
+                    <AlertDialogAction className="p-0">
+                        <Button variant="destructive" onClick={deleteTemplateHandler} className="w-full h-full rounded-sm">Continue</Button>
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -51,7 +51,7 @@ export function CardTemplate({ className, type, pageQuery, template, ...props }:
     const deleteTemplateHandler = () => {
         mutate(template.id);
     }
-
+    
     return (
         <Card className={cn("w-[380px]", className)} {...props}>
             <CardHeader>
@@ -73,13 +73,13 @@ export function CardTemplate({ className, type, pageQuery, template, ...props }:
             </CardContent>
 
             <CardFooter className="flex gap-2">
-                <DialogTemplate templateData={template}>
+                <DialogTemplate templateData={template} pageQuery={pageQuery}>
                     {/* <Link to={`template/${template.id}`} className="w-full"> */}
                     <Button className="w-full" >View Template</Button>
                     {/* </Link> */}
                 </DialogTemplate>
                 {type === "user" &&
-                    <AlertDialogTemplate deleteTemplateHandler={deleteTemplateHandler}>
+                    <AlertDialogTemplate deleteTemplateHandler={deleteTemplateHandler} dialogDescription="This action cannot be undone. This will permanently delete the template and you will not be able to recover it.">
                         <Button variant="destructive" className="p-2" disabled={isPending || isError}>
                             <Trash2 className="w-5 h-5" />
                         </Button>
