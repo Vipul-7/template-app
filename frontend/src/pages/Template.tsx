@@ -1,11 +1,7 @@
-import { useParams } from "react-router"
+import DialogTemplate from "@/components/DialogTemplate"
 
 const TemplatePage = () => {
-    const params = useParams();
-    
-    return (
-        <div>Page</div>
-    )
+    return <DialogTemplate />
 }
 
 export default TemplatePage

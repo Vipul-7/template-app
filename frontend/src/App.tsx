@@ -28,7 +28,6 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={CLIENT_ID}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        {/* {children} */}
         <authContext.Provider value={{ isAuth, setIsAuth }}>
           <QueryClientProvider client={queryClient}>
             <BrowserRouter>
@@ -37,7 +36,7 @@ function App() {
                   <Route index={true} element={<HomePage />}></Route>
                   <Route path='signup' element={<SignupPage />}></Route>
                   <Route path='login' element={<LoginPage />}></Route>
-                  <Route path='template/:templateId' element={<TemplatePage />}></Route>
+                  {/* <Route path='template/:templateId' element={<TemplatePage />}></Route> */}
                   <Route path='my-templates' element={<ProtectedRoute Component={MyTemplatesPage} />}></Route>
                   <Route path='create-template' element={<ProtectedRoute Component={CreateTemplatePage} />} ></Route>
                 </Route>

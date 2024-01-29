@@ -22,6 +22,7 @@ export interface TemplateData {
     description: string,
     creator: User,
     keywords: TemplateKeyword[],
+    createdAt : string
 }
 
 export interface User {

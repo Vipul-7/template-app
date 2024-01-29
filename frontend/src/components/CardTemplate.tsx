@@ -13,7 +13,12 @@ import { Badge } from "@/components/ui/badge"
 import { Trash2 } from "lucide-react"
 import { useMutation } from "@tanstack/react-query"
 import { deleteTemplate, queryClient } from "@/lib/http"
-import { useToast } from "./ui/use-toast"
+import { useToast } from "./ui/use-toast";
+import AlertDialogTemplate from "./AlertDialogTemplate"
+import DialogTemplate from "./DialogTemplate"
+import { Link } from "react-router-dom"
+
+
 
 type CardProps = React.ComponentProps<typeof Card>
 
@@ -26,7 +31,7 @@ interface CardTemplateProps extends CardProps {
 export function CardTemplate({ className, type, pageQuery, template, ...props }: CardTemplateProps) {
     const { toast } = useToast();
 
-    const { mutate, isPending, isError} = useMutation({
+    const { mutate, isPending, isError } = useMutation({
         mutationFn: deleteTemplate,
         mutationKey: ["template", localStorage.getItem("userId"), pageQuery],
         onSuccess: (data) => {
@@ -65,14 +70,21 @@ export function CardTemplate({ className, type, pageQuery, template, ...props }:
                         </div>
                     </div>
                 </div>
-
             </CardContent>
 
             <CardFooter className="flex gap-2">
-                <Button className="w-full">View Template</Button>
-                {type === "user" && <Button variant="destructive" className="p-2" onClick={deleteTemplateHandler} disabled={isPending || isError}>
-                    <Trash2 className="w-5 h-5" />
-                </Button>}
+                <DialogTemplate templateData={template}>
+                    {/* <Link to={`template/${template.id}`} className="w-full"> */}
+                    <Button className="w-full" >View Template</Button>
+                    {/* </Link> */}
+                </DialogTemplate>
+                {type === "user" &&
+                    <AlertDialogTemplate deleteTemplateHandler={deleteTemplateHandler}>
+                        <Button variant="destructive" className="p-2" disabled={isPending || isError}>
+                            <Trash2 className="w-5 h-5" />
+                        </Button>
+                    </AlertDialogTemplate>
+                }
             </CardFooter>
         </Card>
     )
