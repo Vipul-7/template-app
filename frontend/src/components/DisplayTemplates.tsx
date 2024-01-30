@@ -30,9 +30,9 @@ const DisplayTemplates = ({ pageQuery, setPageQuery, totalPages, type, data, isP
                 <>
                     {data.templates && data.templates.length > 0 ? (
                         <>
-                            {<div className="grid grid-cols-3 gap-4">
+                            {<div className="grid grid-cols-3 justify-items-center gap-4">
                                 {data.templates.map((item: TemplateData) => (
-                                    <CardTemplate key={item.id} template={item} pageQuery={pageQuery} type={type} />
+                                    <CardTemplate key={item.id} template={item} pageQuery={pageQuery} type={type}/>
                                 ))}
                             </div>}
                             <div className="p-2 my-2">

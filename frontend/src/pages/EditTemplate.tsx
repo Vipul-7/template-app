@@ -1,6 +1,6 @@
 import CreateTemplate from '@/components/CreateTemplate'
 import { useToast } from '@/components/ui/use-toast';
-import { editTemplate } from '@/lib/http';
+import { editTemplate, queryClient } from '@/lib/http';
 import { TemplateInputs } from '@/lib/types';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router'

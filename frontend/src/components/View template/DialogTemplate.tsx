@@ -15,6 +15,7 @@ import ThreeDotIcon from "../ui/icons/ThreeDotIcon";
 import { Button } from "../ui/button";
 import { DropdownMenuTemplate } from "./DropDownTemplate";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 interface Props {
     children: any,
@@ -24,11 +25,22 @@ interface Props {
 
 const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
     const navigate = useNavigate();
-    const timestamp = new Date(templateData.createdAt);
-    const formattedDate = format(timestamp, 'do MMM yyyy h:mmaaaa');
+    const [formattedCreationDate, setFormattedCreationDate] = useState<string>("");
+    const [formattedLastUpdatedDate, setFormattedLastUpdatedDate] = useState<string | null>(null);
+
+    useEffect(() => {
+        const creationTimestamp = new Date(templateData.createdAt);
+        const updationTimestamp = new Date(templateData.updatedAt);
+
+        setFormattedCreationDate(format(creationTimestamp, 'do MMM yyyy h:mmaaaa'));
+
+        if (templateData.createdAt !== templateData.updatedAt) {
+            setFormattedLastUpdatedDate(format(updationTimestamp, 'do MMM yyyy h:mmaaaa'));
+        }
+    }, [templateData.updatedAt])
 
     const navigateToEditTemplateHandler = () => {
-        navigate(`template/edit/${templateData.id}`, {
+        navigate(`/template/edit/${templateData.id}`, {
             state: {
                 title: templateData.title,
                 description: templateData.description,
@@ -74,8 +86,13 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                     <ScrollArea className="w-full h-[50vh]  bg-[#191919] p-2 rounded-md mt-2 overflow-auto custom-scrollbar whitespace-pre-line">
                         {templateData.description}
                     </ScrollArea>
-                    <DialogDescription className="flex justify-end">
-                        Created at {" "}{formattedDate}
+                    <DialogDescription className="flex flex-col items-end">
+                        <div>
+                            Created at {" "}{formattedCreationDate}
+                        </div>
+                        {formattedLastUpdatedDate && <div>
+                            Last Updated at {" "}{formattedLastUpdatedDate}
+                        </div>}
                     </DialogDescription>
                 </div>
             </DialogContent>
