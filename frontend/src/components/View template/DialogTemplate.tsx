@@ -7,13 +7,14 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { TemplateData } from "@/lib/types"
-import { Badge } from "./ui/badge"
+import { Badge } from "../ui/badge"
 import { format } from "date-fns";
-import { ScrollArea } from "./ui/scroll-area"
+import { ScrollArea } from "../ui/scroll-area"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import ThreeDotIcon from "./ui/icons/ThreeDotIcon";
-import { Button } from "./ui/button";
+import ThreeDotIcon from "../ui/icons/ThreeDotIcon";
+import { Button } from "../ui/button";
 import { DropdownMenuTemplate } from "./DropDownTemplate";
+import { useNavigate } from "react-router";
 
 interface Props {
     children: any,
@@ -22,8 +23,20 @@ interface Props {
 }
 
 const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
+    const navigate = useNavigate();
     const timestamp = new Date(templateData.createdAt);
     const formattedDate = format(timestamp, 'do MMM yyyy h:mmaaaa');
+
+    const navigateToEditTemplateHandler = () => {
+        navigate(`template/edit/${templateData.id}`, {
+            state: {
+                title: templateData.title,
+                description: templateData.description,
+                keywords: templateData.keywords,
+                pageQuery
+            }
+        });
+    }
 
     return (
         <Dialog>
@@ -34,7 +47,7 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                 <DialogHeader>
                     <DialogTitle className="flex justify-between items-center">
                         {templateData.title}
-                        {localStorage.getItem("userId") === templateData.creator.id.toString() && <DropdownMenuTemplate templateId={templateData.id} pageQuery={pageQuery}>
+                        {localStorage.getItem("userId") === templateData.creator.id.toString() && <DropdownMenuTemplate templateId={templateData.id} pageQuery={pageQuery} navigateToEditPage={navigateToEditTemplateHandler}>
                             <Button variant="ghost" className="w-6 h-7 mr-9 p-1 cursor-pointer" >
                                 <ThreeDotIcon className="w-full h-full " />
                             </Button>
@@ -58,7 +71,7 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                                 <Badge key={keyword.id} className="mr-2" variant="outline">{keyword.value}</Badge>
                             )
                         })}</div>
-                    <ScrollArea className="w-full h-[40%] bg-[#191919] p-2 rounded-md mt-2 overflow-auto custom-scrollbar whitespace-pre-line">
+                    <ScrollArea className="w-full h-[50vh]  bg-[#191919] p-2 rounded-md mt-2 overflow-auto custom-scrollbar whitespace-pre-line">
                         {templateData.description}
                     </ScrollArea>
                     <DialogDescription className="flex justify-end">
@@ -66,7 +79,7 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                     </DialogDescription>
                 </div>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     )
 }
 

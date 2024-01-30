@@ -3,7 +3,7 @@ import { CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import { Textarea } from "./ui/textarea"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Badge } from "./ui/badge"
 import CrossIcon from "./ui/icons/CrossIcon"
 import { TemplateInputs } from "@/lib/types"
@@ -21,6 +21,15 @@ interface Props {
     isSending: boolean,
     isSubmissionError: boolean,
     submissionError: Error | null,
+    templateData: {
+        id: number,
+        title: string,
+        description: string,
+        keywords: {
+            id: number,
+            value: string
+        }[]
+    } | null;
 }
 
 const validate = (values: TemplateInputs) => {
@@ -46,11 +55,17 @@ const CreateTemplate = (props: Props) => {
     const [tagInput, setTagInput] = useState<string>("");
     const [tag, setTag] = useState<string[]>([]);
 
+    useEffect(() => {
+        if (props.templateData) {
+            setTag(props.templateData.keywords.map((keyword) => keyword.value));
+        }
+    }, [])
+
     const formik = useFormik({
         initialValues: {
-            title: "",
-            description: "",
-            tags: [],
+            title: props.templateData ? props.templateData.title : "",
+            description: props.templateData ? props.templateData.description : "",
+            tags: props.templateData ? props.templateData.keywords.map((keyword) => keyword.value) : []
         },
         validate,
         onSubmit: (values) => {
@@ -129,7 +144,7 @@ const CreateTemplate = (props: Props) => {
             </div>
 
             <div className="flex justify-start gap-4">
-                <Button type="submit" disabled={props.isSending || !formik.isValid}>Save</Button>
+                <Button type="submit" disabled={props.isSending}>Save</Button>
                 <Button variant="outline" onClick={() => navigate("/")}>Cancel</Button>
                 {props.isSubmissionError &&
                     <div className="text-xs text-red-500 flex justify-start items-center">

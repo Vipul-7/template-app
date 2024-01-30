@@ -1,4 +1,4 @@
-import CreateTemplate from "@/components/CreateTemplate"
+import CreateTemplate from "@/components/CreateTemplate";
 import { useToast } from "@/components/ui/use-toast";
 import { createTemplate } from "@/lib/http"
 import { TemplateInputs } from "@/lib/types";
@@ -27,7 +27,7 @@ const CreateTemplatePage = () => {
     }
 
     return (
-        <CreateTemplate onSubmit={formSubmitHandler} isSending={isPending} isSubmissionError={isError} submissionError={error} />
+        <CreateTemplate onSubmit={formSubmitHandler} isSending={isPending} isSubmissionError={isError} submissionError={error} templateData={null} />
     )
 }
 

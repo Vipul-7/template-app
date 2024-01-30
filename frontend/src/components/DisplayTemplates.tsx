@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { TemplateData } from "@/lib/types";
-import { CardTemplate } from "@/components/CardTemplate";
+import { CardTemplate } from "./All templates/CardTemplate";
 
 interface Props {
     pageQuery: number;

@@ -14,16 +14,17 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { deleteTemplate, queryClient } from "@/lib/http"
 import { useMutation } from "@tanstack/react-query"
-import { useToast } from "./ui/use-toast"
+import { useToast } from "../ui/use-toast"
 import { useNavigate } from "react-router"
 
 interface Props {
     children: any,
     templateId: number,
-    pageQuery: number
+    pageQuery: number,
+    navigateToEditPage: () => any
 }
 
-export function DropdownMenuTemplate({ children, templateId, pageQuery }: Props) {
+export function DropdownMenuTemplate({ children, templateId, pageQuery, navigateToEditPage }: Props) {
     const navigate = useNavigate();
     const { toast } = useToast();
 
@@ -56,7 +57,7 @@ export function DropdownMenuTemplate({ children, templateId, pageQuery }: Props)
                 {children}
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={navigateToEditPage}>
                     Edit
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import { ModeToggle } from "./ModeToggle";
+import { ModeToggle } from "./theme/ModeToggle";
 import { useContext, useEffect, useState } from "react";
 import { decodeToken } from "@/lib/decodeToken";
 import { TokenData } from "@/lib/types";
@@ -20,6 +20,7 @@ const NavBar = () => {
 
     const logoutHandler = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("userId");
         setIsAuth(false);
         setTokenData(null);
     }

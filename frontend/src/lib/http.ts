@@ -44,6 +44,21 @@ export const createTemplate = async (templateData: TemplateInputs) => {
     return response.data;
 }
 
+export const editTemplate = async ({ templateId, title, description, tags }: { templateId: number } & TemplateInputs) => {
+    const response = await axios({
+        url: `http://localhost:8080/template/edit/${templateId}`,
+        method: "PATCH",
+        data: {
+            title, description, keywords: tags
+        },
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+
+    return response.data;
+}
+
 export const deleteTemplate = async (templateId: number) => {
     const response = await axios({
         url: `http://localhost:8080/template/delete/${templateId}`,

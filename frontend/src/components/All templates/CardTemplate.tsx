@@ -13,12 +13,9 @@ import { Badge } from "@/components/ui/badge"
 import { Trash2 } from "lucide-react"
 import { useMutation } from "@tanstack/react-query"
 import { deleteTemplate, queryClient } from "@/lib/http"
-import { useToast } from "./ui/use-toast";
-import AlertDialogTemplate from "./AlertDialogTemplate"
-import DialogTemplate from "./DialogTemplate"
-import { Link } from "react-router-dom"
-
-
+import { useToast } from "../ui/use-toast";
+import AlertDialogTemplate from "../AlertDialogTemplate"
+import DialogTemplate from "../View template/DialogTemplate"
 
 type CardProps = React.ComponentProps<typeof Card>
 

@@ -12,8 +12,8 @@ import { ThemeProvider } from './components/ThemeProvider'
 import React, { useState } from 'react'
 import CreateTemplatePage from './pages/CreateTemplatePage'
 import ProtectedRoute from './components/ProtectedRoute'
-import TemplatePage from './pages/Template'
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import EditTemplatePage from './pages/EditTemplate'
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID!;
 
@@ -38,6 +38,7 @@ function App() {
                   <Route path='login' element={<LoginPage />}></Route>
                   {/* <Route path='template/:templateId' element={<TemplatePage />}></Route> */}
                   <Route path='my-templates' element={<ProtectedRoute Component={MyTemplatesPage} />}></Route>
+                  <Route path='template/edit/:templateId' element={<EditTemplatePage />} />
                   <Route path='create-template' element={<ProtectedRoute Component={CreateTemplatePage} />} ></Route>
                 </Route>
               </Routes>
