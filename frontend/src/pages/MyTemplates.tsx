@@ -1,11 +1,13 @@
+import { authContext } from "@/App";
 import DisplayTemplates from "@/components/DisplayTemplates";
 import { getUserTemplates } from "@/lib/http";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const MyTemplatesPage = () => {
     const [pageQuery, setPageQuery] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+    const { user } = useContext(authContext);
 
     const {
         isPending,
@@ -13,7 +15,7 @@ const MyTemplatesPage = () => {
         error,
         data,
     } = useQuery({
-        queryKey: ["template", localStorage.getItem("userId"), pageQuery],
+        queryKey: ["template", user?.id, pageQuery],
         queryFn: ({ signal }) => getUserTemplates({ pageQuery, signal }),
         placeholderData: keepPreviousData,
     });

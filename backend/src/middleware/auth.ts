@@ -35,7 +35,7 @@ const auth = (req: request, res: Response, next: () => any) => {
         return next();
     }
 
-    req.userId = decodedToken.userId;
+    req.userId = decodedToken.user.id;
     req.isAuth = true;
     next();
 }

@@ -3,24 +3,32 @@ import { Button } from "./ui/button";
 import { ModeToggle } from "./theme/ModeToggle";
 import { useContext, useEffect, useState } from "react";
 import { decodeToken } from "@/lib/decodeToken";
-import { TokenData } from "@/lib/types";
+import { TokenData, User } from "@/lib/types";
 import { authContext } from "@/App";
 import { PlusIcon } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import DropDownProfile from "./DropDownProfile";
+import { JwtPayload } from "jsonwebtoken";
+
+interface CustomizedJwtPayload extends JwtPayload {
+    user: User
+}
 
 const NavBar = () => {
-    const { isAuth, setIsAuth } = useContext(authContext);
+    const { isAuth, setIsAuth, setUser } = useContext(authContext);
     const [tokenData, setTokenData] = useState<TokenData | null>(null);
 
     useEffect(() => {
-        const decodedData = decodeToken();
+        const decodedData: CustomizedJwtPayload | null = decodeToken() as CustomizedJwtPayload;
         if (!decodedData) return;
         setIsAuth(true);
+        setUser({ ...decodedData.user, isEmailVerified: false });
         setTokenData(decodedData);
     }, [isAuth]);
 
     const logoutHandler = () => {
         localStorage.removeItem("token");
-        localStorage.removeItem("userId");
+        setUser(null);
         setIsAuth(false);
         setTokenData(null);
     }
@@ -42,7 +50,17 @@ const NavBar = () => {
                 {!tokenData && <Link to="/login">
                     <Button>Sign-in</Button>
                 </Link>}
-                {tokenData && <Button onClick={logoutHandler}>Logout</Button>}
+                {tokenData &&
+                    <div>
+                        <DropDownProfile logoutHandler={logoutHandler}>
+                            <Avatar>
+                                <AvatarImage src="https://github.com/shadcn.png" className="w-10 h-10 rounded-full cursor-pointer" />
+                                <AvatarFallback>Avatar{" "}</AvatarFallback>
+                            </Avatar>
+                        </DropDownProfile>
+                        {/* <Button onClick={logoutHandler}>Logout</Button> */}
+                    </div>
+                }
             </div>
         </nav>
     );

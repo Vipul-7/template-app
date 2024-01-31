@@ -76,13 +76,12 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     }
 
     const token = jwt.sign({
-        email: user.email,
-        userId: user.id
+        user
     }, process.env.JWT_SECRET_KEY, {
         expiresIn: "1h"
     });
 
-    res.status(200).json({ token, userId: user.id })
+    res.status(200).json({ token, user })
 }
 
 // google auth

@@ -16,6 +16,8 @@ import { deleteTemplate, queryClient } from "@/lib/http"
 import { useToast } from "../ui/use-toast";
 import AlertDialogTemplate from "../AlertDialogTemplate"
 import DialogTemplate from "../View template/DialogTemplate"
+import { useContext } from "react"
+import { authContext } from "@/App"
 
 type CardProps = React.ComponentProps<typeof Card>
 
@@ -27,15 +29,16 @@ interface CardTemplateProps extends CardProps {
 
 export function CardTemplate({ className, type, pageQuery, template, ...props }: CardTemplateProps) {
     const { toast } = useToast();
+    const { user } = useContext(authContext);
 
     const { mutate, isPending, isError } = useMutation({
         mutationFn: deleteTemplate,
-        mutationKey: ["template", localStorage.getItem("userId"), pageQuery],
+        mutationKey: ["template", user?.id, pageQuery],
         onSuccess: (data) => {
             toast({
                 title: data.message
             })
-            queryClient.invalidateQueries({ queryKey: ["template", localStorage.getItem("userId"), pageQuery] });
+            queryClient.invalidateQueries({ queryKey: ["template", user?.id, pageQuery] });
         },
         onError: (error) => {
             toast({
@@ -48,7 +51,7 @@ export function CardTemplate({ className, type, pageQuery, template, ...props }:
     const deleteTemplateHandler = () => {
         mutate(template.id);
     }
-    
+
     return (
         <Card className={cn("w-[380px]", className)} {...props}>
             <CardHeader>

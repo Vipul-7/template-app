@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query"
 import { useNavigate } from "react-router"
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import { LoginInputs, SignupInputs } from "@/lib/types";
+import { LoginInputs, SignupInputs, User } from "@/lib/types";
 // import { authContext } from "@/App";
 import React, { useContext, useState } from "react";
 import { authContext } from "@/App";
@@ -11,12 +11,12 @@ import { Separator } from "@radix-ui/react-dropdown-menu";
 
 
 const AuthPage = (props: { auth: string }) => {
-  const { setIsAuth } = useContext(authContext);
+  const { setIsAuth, setUser } = useContext(authContext);
   const navigate = useNavigate();
 
   const { mutate: loginMutate, isPending: isLoginPending, isError: isLoginError, error: loginError } = useMutation({
     mutationFn: login,
-    onSuccess: (data: { token: string, userId: string }) => {
+    onSuccess: (data: { token: string, user: User }) => {
       // if (data.error) {
       //   window.alert(data.error);
       // }
@@ -24,7 +24,9 @@ const AuthPage = (props: { auth: string }) => {
       console.log(data);
       if (data.token) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("userId", data.userId)
+        // localStorage.setItem("userId", data.userId);
+        setUser({ ...data.user, isEmailVerified: false })
+
         setIsAuth(true);
         navigate("/");
       }
@@ -41,11 +43,9 @@ const AuthPage = (props: { auth: string }) => {
   });
 
   const loginFormSubmitHandler = (loginData: LoginInputs) => {
-    console.log(loginData);
     loginMutate(loginData);
   }
   const singupFormSubmitHandler = (signupData: SignupInputs) => {
-    console.log(signupData);
     signupMutate(signupData);
   }
 

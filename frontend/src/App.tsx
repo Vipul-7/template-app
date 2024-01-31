@@ -14,21 +14,26 @@ import CreateTemplatePage from './pages/CreateTemplatePage'
 import ProtectedRoute from './components/ProtectedRoute'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import EditTemplatePage from './pages/EditTemplate'
+import SettingsPage from './pages/Settings'
+import { UserDetails } from "./lib/types"
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID!;
 
 export const authContext = React.createContext({
   isAuth: false,
-  setIsAuth: (value: boolean) => { }
+  setIsAuth: (value: boolean) => { },
+  user: null as UserDetails | null,
+  setUser: (user: UserDetails | null) => { }
 });
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState<UserDetails | null>(null);
 
   return (
     <GoogleOAuthProvider clientId={CLIENT_ID}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <authContext.Provider value={{ isAuth, setIsAuth }}>
+        <authContext.Provider value={{ isAuth, setIsAuth, user, setUser }}>
           <QueryClientProvider client={queryClient}>
             <BrowserRouter>
               <Routes>
@@ -40,6 +45,7 @@ function App() {
                   <Route path='my-templates' element={<ProtectedRoute Component={MyTemplatesPage} />}></Route>
                   <Route path='template/edit/:templateId' element={<EditTemplatePage />} />
                   <Route path='create-template' element={<ProtectedRoute Component={CreateTemplatePage} />} ></Route>
+                  <Route path='settings' element={<ProtectedRoute Component={SettingsPage} />}></Route>
                 </Route>
               </Routes>
             </BrowserRouter>
@@ -50,4 +56,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

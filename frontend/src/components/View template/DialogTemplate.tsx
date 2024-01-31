@@ -15,7 +15,8 @@ import ThreeDotIcon from "../ui/icons/ThreeDotIcon";
 import { Button } from "../ui/button";
 import { DropdownMenuTemplate } from "./DropDownTemplate";
 import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { authContext } from "@/App";
 
 interface Props {
     children: any,
@@ -27,6 +28,7 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
     const navigate = useNavigate();
     const [formattedCreationDate, setFormattedCreationDate] = useState<string>("");
     const [formattedLastUpdatedDate, setFormattedLastUpdatedDate] = useState<string | null>(null);
+    const { user } = useContext(authContext);
 
     useEffect(() => {
         const creationTimestamp = new Date(templateData.createdAt);
@@ -59,7 +61,7 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                 <DialogHeader>
                     <DialogTitle className="flex justify-between items-center">
                         {templateData.title}
-                        {localStorage.getItem("userId") === templateData.creator.id.toString() && <DropdownMenuTemplate templateId={templateData.id} pageQuery={pageQuery} navigateToEditPage={navigateToEditTemplateHandler}>
+                        {user?.id && user?.id === templateData.creator.id && <DropdownMenuTemplate templateId={templateData.id} pageQuery={pageQuery} navigateToEditPage={navigateToEditTemplateHandler}>
                             <Button variant="ghost" className="w-6 h-7 mr-9 p-1 cursor-pointer" >
                                 <ThreeDotIcon className="w-full h-full " />
                             </Button>
@@ -83,10 +85,10 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                                 <Badge key={keyword.id} className="mr-2" variant="outline">{keyword.value}</Badge>
                             )
                         })}</div>
-                    <ScrollArea className="w-full h-[50vh]  bg-[#191919] p-2 rounded-md mt-2 overflow-auto custom-scrollbar whitespace-pre-line">
+                    <ScrollArea className="w-full h-[50vh]  bg-secondary p-2 rounded-md mt-2 overflow-auto custom-scrollbar whitespace-pre-line">
                         {templateData.description}
                     </ScrollArea>
-                    <DialogDescription className="flex flex-col items-end">
+                    <DialogDescription className="flex flex-col items-end mt-3">
                         <div>
                             Created at {" "}{formattedCreationDate}
                         </div>

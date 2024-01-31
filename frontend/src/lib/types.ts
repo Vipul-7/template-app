@@ -22,8 +22,8 @@ export interface TemplateData {
     description: string,
     creator: User,
     keywords: TemplateKeyword[],
-    createdAt : string,
-    updatedAt : string,
+    createdAt: string,
+    updatedAt: string,
 }
 
 export interface User {
@@ -43,4 +43,12 @@ export interface TokenData {
     exp?: number,
     iat?: number,
     userId?: number
+}
+
+export interface UserDetails {
+    id: number,
+    email: string,
+    firstName: string,
+    lastName: string,
+    isEmailVerified: boolean
 }

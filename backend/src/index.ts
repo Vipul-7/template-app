@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { AppDataSource } from "./data-source";
 import { default as authRoutes } from "./routes/auth";
 import { default as templateRoutes } from "./routes/template";
+import { default as uploadRoutes } from "./routes/upload";
 
 import "reflect-metadata"; // This is required for typeorm to work
 
@@ -23,6 +24,7 @@ AppDataSource.initialize().then(async () => {
 
     app.use("/auth", authRoutes)
     app.use(templateRoutes)
+    app.use(uploadRoutes)
 
     // app.use((error, req, res) => {
     //     const status = error.statusCode || 500;
