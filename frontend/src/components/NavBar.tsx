@@ -15,7 +15,7 @@ interface CustomizedJwtPayload extends JwtPayload {
 }
 
 const NavBar = () => {
-    const { isAuth, setIsAuth, setUser } = useContext(authContext);
+    const { isAuth, setIsAuth, setUser, user } = useContext(authContext);
 
     useEffect(() => {
         const decodedData: CustomizedJwtPayload | null = decodeToken() as CustomizedJwtPayload;
@@ -29,7 +29,7 @@ const NavBar = () => {
         setUser(null);
         setIsAuth(false);
     }
-
+    
     return (
         <nav className="flex justify-between items-center w-full h-18 p-2 border-b">
             <Link to="/" className="flex-[0.3%] text-start"><div className="text-xl font-bold">Templates</div></Link>
@@ -51,7 +51,7 @@ const NavBar = () => {
                     <div>
                         <DropDownProfile logoutHandler={logoutHandler}>
                             <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" className="w-10 h-10 rounded-full cursor-pointer" />
+                                <AvatarImage src={user?.profilePicture} className="w-10 h-10 rounded-full cursor-pointer" />
                                 <AvatarFallback>Avatar{" "}</AvatarFallback>
                             </Avatar>
                         </DropDownProfile>

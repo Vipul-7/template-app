@@ -17,7 +17,7 @@ export class Template {
     @JoinTable()
     keywords: TemplateKeyword[];
 
-    @ManyToOne(() => User, user => user.templates)
+    @ManyToOne(() => User, user => user.templates, { onDelete: "CASCADE" })
     @JoinColumn({ name: "creatorId" })
     creator: User
 

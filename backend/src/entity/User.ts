@@ -18,13 +18,16 @@ export class User {
     @Column({ default: false })
     isEmailVerified: boolean
 
+    @Column({ default: "https://github.com/shadcn.png" })
+    profilePicture : string
+
     @Column({ nullable: true })
     password: string
 
     @Column({ default: false })
     signedInWithGoogle: boolean
 
-    @OneToMany(() => Template, template => template.creator, {onDelete: "CASCADE"})
+    @OneToMany(() => Template, template => template.creator)
     templates: Template[];
 
     @CreateDateColumn()

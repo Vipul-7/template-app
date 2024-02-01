@@ -49,8 +49,6 @@ const AuthPage = (props: { auth: string }) => {
     signupMutate(signupData);
   }
 
-  console.log(isLoginError, loginError, isSignupError, signupError)
-
   return (
     <main className="flex justify-center items-center h-screen">
       <div>

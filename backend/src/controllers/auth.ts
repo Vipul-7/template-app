@@ -121,8 +121,9 @@ export const googleSignIn = async (req: Request, res: Response, next: NextFuncti
             user.firstName = profile.given_name;
             user.lastName = profile.family_name;
             user.signedInWithGoogle = true;
+            user.profilePicture = profile.picture;
 
-            const createdUser = await userRepository.save(user);
+            await userRepository.save(user);
 
             const token = jwt.sign({
                 user

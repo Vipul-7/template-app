@@ -113,7 +113,6 @@ export const googleSignIn = async ({ code }: { code: any }) => {
 }
 
 export const deleteUser = async (userId: number) => {
-    console.log(userId);
     const response = await axios({
         url: `http://localhost:8080/user/delete/${userId}`,
         method: "POST",

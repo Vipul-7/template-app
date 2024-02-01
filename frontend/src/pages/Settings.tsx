@@ -5,16 +5,18 @@ import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
 import { deleteUser } from "@/lib/http"
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
+import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
-import { useContext } from "react"
+import { UploadCloudIcon } from "lucide-react"
+import { ChangeEvent, useContext, useState } from "react"
 import { useNavigate } from "react-router"
 
 const SettingsPage = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { user, setUser, setIsAuth } = useContext(authContext);
+  const [loading, setLoading] = useState(false);
 
   const { mutate } = useMutation({
     mutationKey: ["user", user?.id],
@@ -58,12 +60,44 @@ const SettingsPage = () => {
     }
   }
 
+  const handleUploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    try {
+      setLoading(true);
+      const data = new FormData();
+      data.append("avatar", e.target?.files ? e.target.files[0] : "");
+      const res = await axios({
+        url: "http://localhost:8080/upload/avatar",
+        method: "POST",
+        data,
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      setUser(res.data.user);
+
+      localStorage.setItem("token", res.data.token);
+
+      toast({
+        title: res.data.message
+      })
+    } catch (error) {
+      // alert(error?.message);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <main className="p-5">
       <div className="flex flex-col justify-center items-center">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" className="w-16 h-16 rounded-full cursor-pointer" />
-          <AvatarFallback>Avatar{" "}</AvatarFallback>
+        <Avatar className="relative group">
+          {!loading && <AvatarImage src={user?.profilePicture} className="w-16 h-16 rounded-full cursor-pointer" />}
+          {loading && <p>Uploading...</p>}
+          <label htmlFor="file" className={`w-16 h-16 rounded-full cursor-pointer absolute top-0 left-0 group-hover:flex group-hover:z-10 bg-black opacity-50 hidden group-hover: justify-center group-hover:items-center`}>
+            <UploadCloudIcon />
+          </label>
+          <input type="file" id="file" onChange={handleUploadFile} hidden />
         </Avatar>
         <h2 className="text-2xl mt-2">{user?.firstName + " " + user?.lastName}</h2>
         <div className="flex gap-2 items-center">
