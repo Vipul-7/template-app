@@ -125,7 +125,7 @@ const CreateTemplate = (props: Props) => {
                                 <Badge key={`tag-${index}`} variant="default" className="w-full">
                                     {t}
                                 </Badge>
-                                <Button className="m-0 p-1 h-3" variant="secondary" style={{ marginLeft: "-10px", marginTop: "-4px" }} onClick={() => removeTagHandler(index)}>
+                                <Button className="m-0 p-1 h-3" variant="secondary" style={{ marginLeft: "-10px", marginTop: "-4px" }} type="button" onClick={() => removeTagHandler(index)}>
                                     <CrossIcon />
                                 </Button>
                             </div>
@@ -133,7 +133,7 @@ const CreateTemplate = (props: Props) => {
                     })}
                 </div>
                 <div className="flex justify-start">
-                    <Input type="tags" id="tags" placeholder="Add tag from 1 to 3" value={tagInput} onChange={tagInputChangeHandler} autoComplete="off" />
+                    <Input id="tags" placeholder="Add tag from 1 to 3" value={tagInput} onChange={tagInputChangeHandler} autoComplete="off" />
                     <div style={{ marginLeft: "-55px" }} className="flex items-center">
                         <Button type="button" variant="secondary" className="h-7 m-[-6px]" onClick={tagAddHandler}>add</Button>
                     </div>

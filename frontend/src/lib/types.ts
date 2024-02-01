@@ -32,6 +32,7 @@ export interface User {
     firstName: string,
     lastName: string,
     templates: TemplateData[],
+    isEmailVerified : boolean
 }
 
 export interface TemplateKeyword {

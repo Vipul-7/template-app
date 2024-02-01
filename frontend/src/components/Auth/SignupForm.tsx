@@ -13,10 +13,13 @@ import { SignupInputs } from "@/lib/types";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import GoogleAuth from "./GoogleAuth";
+import { AxiosError } from "axios";
 
 interface Props {
     onSubmit: (values: SignupInputs) => void,
-    isSending: boolean
+    isSending: boolean,
+    isError: boolean,
+    error: AxiosError | null
 }
 
 const validate = (values: SignupInputs) => {
@@ -56,12 +59,6 @@ const SignupForm = (props: Props) => {
             props.onSubmit(values);
         },
     });
-
-    const isNotValid =
-        formik.errors.firstName ||
-        formik.errors.email ||
-        formik.errors.password ||
-        formik.errors.lastName;
 
     return (
         <Card className="w-[350px]">
@@ -112,6 +109,8 @@ const SignupForm = (props: Props) => {
                     </div>
                 </form>
             </CardContent>
+            {props.isError && <p className="text-xs text-red-400">{(props.error?.response?.data as { errors?: { msg?: string } })?.errors?.msg ||
+                'Default error message'}</p>}
             <CardFooter className="flex justify-between items-end space-y-2 space-x-3">
                 <Link to="/login" >
                     <Button variant="secondary">Login</Button>

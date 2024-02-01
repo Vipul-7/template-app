@@ -13,7 +13,7 @@ export class Template {
     @Column()
     description: string
 
-    @ManyToMany(() => TemplateKeyword)
+    @ManyToMany(() => TemplateKeyword, { onDelete: "CASCADE" })
     @JoinTable()
     keywords: TemplateKeyword[];
 

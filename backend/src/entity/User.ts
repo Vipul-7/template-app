@@ -24,7 +24,7 @@ export class User {
     @Column({ default: false })
     signedInWithGoogle: boolean
 
-    @OneToMany(() => Template, template => template.creator)
+    @OneToMany(() => Template, template => template.creator, {onDelete: "CASCADE"})
     templates: Template[];
 
     @CreateDateColumn()

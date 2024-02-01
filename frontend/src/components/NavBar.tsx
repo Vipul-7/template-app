@@ -16,21 +16,18 @@ interface CustomizedJwtPayload extends JwtPayload {
 
 const NavBar = () => {
     const { isAuth, setIsAuth, setUser } = useContext(authContext);
-    const [tokenData, setTokenData] = useState<TokenData | null>(null);
 
     useEffect(() => {
         const decodedData: CustomizedJwtPayload | null = decodeToken() as CustomizedJwtPayload;
         if (!decodedData) return;
         setIsAuth(true);
-        setUser({ ...decodedData.user, isEmailVerified: false });
-        setTokenData(decodedData);
+        setUser(decodedData.user);
     }, [isAuth]);
 
     const logoutHandler = () => {
         localStorage.removeItem("token");
         setUser(null);
         setIsAuth(false);
-        setTokenData(null);
     }
 
     return (
@@ -47,10 +44,10 @@ const NavBar = () => {
                     <Button variant="ghost">Your Templates</Button>
                 </Link>
                 <ModeToggle />
-                {!tokenData && <Link to="/login">
+                {!isAuth && <Link to="/login">
                     <Button>Sign-in</Button>
                 </Link>}
-                {tokenData &&
+                {isAuth &&
                     <div>
                         <DropDownProfile logoutHandler={logoutHandler}>
                             <Avatar>

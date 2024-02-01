@@ -7,7 +7,7 @@ import { LoginInputs, SignupInputs, User } from "@/lib/types";
 // import { authContext } from "@/App";
 import React, { useContext, useState } from "react";
 import { authContext } from "@/App";
-import { Separator } from "@radix-ui/react-dropdown-menu";
+import { Axios, AxiosError } from "axios";
 
 
 const AuthPage = (props: { auth: string }) => {
@@ -25,7 +25,7 @@ const AuthPage = (props: { auth: string }) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
         // localStorage.setItem("userId", data.userId);
-        setUser({ ...data.user, isEmailVerified: false })
+        setUser(data.user)
 
         setIsAuth(true);
         navigate("/");
@@ -49,11 +49,13 @@ const AuthPage = (props: { auth: string }) => {
     signupMutate(signupData);
   }
 
+  console.log(isLoginError, loginError, isSignupError, signupError)
+
   return (
     <main className="flex justify-center items-center h-screen">
       <div>
-        {props.auth === "login" && <LoginForm isSending={isLoginPending} onSubmit={loginFormSubmitHandler} />}
-        {props.auth === "signup" && <SignupForm onSubmit={singupFormSubmitHandler} isSending={isSignupPending} />}
+        {props.auth === "login" && <LoginForm isSending={isLoginPending} onSubmit={loginFormSubmitHandler} isError={isLoginError} error={loginError as AxiosError} />}
+        {props.auth === "signup" && <SignupForm onSubmit={singupFormSubmitHandler} isSending={isSignupPending} isError={isSignupError} error={signupError as AxiosError} />}
       </div>
     </main>
 

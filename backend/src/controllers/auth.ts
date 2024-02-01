@@ -14,7 +14,7 @@ export const putSignup = async (req: Request, res: Response, next: NextFunction)
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
+        return res.status(422).json({ errors: errors.array()[0] });
     }
 
     const email = req.body.email;
@@ -57,7 +57,7 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     const validationErrors = validationResult(req);
 
     if (!validationErrors.isEmpty()) {
-        return res.status(422).json({ errors: validationErrors.array() })
+        return res.status(422).json({ errors: validationErrors.array()[0] })
     }
 
     const email = req.body.email;
@@ -125,23 +125,21 @@ export const googleSignIn = async (req: Request, res: Response, next: NextFuncti
             const createdUser = await userRepository.save(user);
 
             const token = jwt.sign({
-                email: createdUser.email,
-                userId: createdUser.id
+                user
             }, process.env.JWT_SECRET_KEY, {
                 expiresIn: "1h"
             });
 
-            return res.status(200).json({ message: "Signup Successfully", token, userId: user.id })
+            return res.status(200).json({ message: "Signup Successfully", token, user: user })
         }
         else if (user && user.signedInWithGoogle) {
             const token = jwt.sign({
-                email: user.email,
-                userId: user.id
+                user
             }, process.env.JWT_SECRET_KEY, {
                 expiresIn: "1h"
             });
 
-            return res.status(200).json({ message: "Signin Successfully", token, userId: user.id })
+            return res.status(200).json({ message: "Signin Successfully", token, user: user })
         }
         else if (user && !user.signedInWithGoogle) {
             return res.status(401).json({ message: "User already exists! please try again with entering email and password manually." });

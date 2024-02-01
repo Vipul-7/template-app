@@ -222,8 +222,6 @@ export const deleteTemplate = async (req: request, res: Response, next: NextFunc
         const templateId = req.params.templateId;
         const templateRepository = AppDataSource.getRepository(Template);
 
-        console.log(req.userId);
-
         const resp = await templateRepository.delete({
             id: Number(templateId),
             creator: {

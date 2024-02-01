@@ -50,7 +50,6 @@ router.post("/login", [
     body("password").trim().isLength({ min: 5 }).withMessage("enter password more than 5 character long.")
 ], postLogin);
 
-
 // google auth validate tokens 
 
 router.post("/google", googleSignIn);

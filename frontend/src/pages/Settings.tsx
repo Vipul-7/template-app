@@ -3,23 +3,59 @@ import AlertDialogTemplate from "@/components/AlertDialogTemplate"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader } from "@/components/ui/card"
-import { AlertDialog } from "@radix-ui/react-alert-dialog"
+import { useToast } from "@/components/ui/use-toast"
+import { deleteUser } from "@/lib/http"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
-import { Separator } from "@radix-ui/react-dropdown-menu"
+import { useMutation } from "@tanstack/react-query"
+import axios from "axios"
 import { useContext } from "react"
-
-interface Props {
-  firstName: string,
-  lastName: string
-}
+import { useNavigate } from "react-router"
 
 const SettingsPage = () => {
-  const { user } = useContext(authContext);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { user, setUser, setIsAuth } = useContext(authContext);
 
-  // http request to delete account
-  // mutate function
+  const { mutate } = useMutation({
+    mutationKey: ["user", user?.id],
+    mutationFn: deleteUser,
+    onSuccess: (data) => {
+      localStorage.removeItem("token");
+      setUser(null);
+      setIsAuth(false);
+      navigate("/");
+
+      toast({
+        title: data.message
+      })
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        // Handle Axios errors
+        const errorMessage = error.response?.data?.message || "An error occurred";
+        toast({
+          title: errorMessage,
+          variant: "destructive"
+        });
+      } else {
+        // Handle other types of errors
+        toast({
+          title: error.message || "An error occurred",
+          variant: "destructive"
+        });
+      }
+    }
+  });
+
   const deleteAccountHandler = () => {
-
+    if (user?.id) {
+      mutate(user.id)
+    } else {
+      toast({
+        title: "User not found",
+        variant: "destructive"
+      })
+    }
   }
 
   return (
@@ -34,7 +70,7 @@ const SettingsPage = () => {
           <CardDescription>
             {user?.email}
           </CardDescription>
-          <Badge variant="destructive">Not verified</Badge>
+          {!user?.isEmailVerified && <Badge variant="destructive">Not verified</Badge>}
           {/* <Button variant="link" className="p-1">Verify email</Button> */}
         </div>
 

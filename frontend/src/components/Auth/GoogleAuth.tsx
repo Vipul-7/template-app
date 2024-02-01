@@ -11,7 +11,7 @@ import { useToast } from "../ui/use-toast"
 
 const GoogleAuth = () => {
     const { toast } = useToast();
-    const { setIsAuth } = useContext(authContext);
+    const { setIsAuth, setUser } = useContext(authContext);
     const navigate = useNavigate();
 
     const login = useGoogleLogin({
@@ -24,12 +24,12 @@ const GoogleAuth = () => {
                 })
                 if (data.token) {
                     localStorage.setItem("token", data.token);
-                    localStorage.setItem("userId", data.userId)
+                    setUser(data.user);
                     setIsAuth(true);
                     navigate("/");
                 }
 
-                queryClient.invalidateQueries({ queryKey: ["user"] });
+                queryClient.invalidateQueries({ queryKey: ["user", data.user.id] });
             }
         },
         flow: "auth-code"

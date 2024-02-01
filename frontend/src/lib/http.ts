@@ -72,13 +72,18 @@ export const deleteTemplate = async (templateId: number) => {
 }
 
 export const login = async (loginData: LoginInputs) => {
-    const reponse = await axios({
-        url: "http://localhost:8080/auth/login",
-        method: "POST",
-        data: loginData,
-    })
+    try {
+        const reponse = await axios({
+            url: "http://localhost:8080/auth/login",
+            method: "POST",
+            data: loginData,
+        })
 
-    return reponse.data;
+        return reponse.data;
+    }
+    catch (axiosError) {
+        throw axiosError;
+    }
 }
 
 export const signup = async (singupData: SignupInputs) => {
@@ -105,4 +110,17 @@ export const googleSignIn = async ({ code }: { code: any }) => {
         console.log(error);
         throw error
     }
+}
+
+export const deleteUser = async (userId: number) => {
+    console.log(userId);
+    const response = await axios({
+        url: `http://localhost:8080/user/delete/${userId}`,
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+
+    return response.data;
 }
