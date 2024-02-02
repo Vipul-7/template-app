@@ -18,6 +18,8 @@ import AlertDialogTemplate from "../AlertDialogTemplate"
 import DialogTemplate from "../View template/DialogTemplate"
 import { useContext } from "react"
 import { authContext } from "@/App"
+import ClipLoader from "react-spinners/ClipLoader"
+import { AxiosError } from "axios"
 
 type CardProps = React.ComponentProps<typeof Card>
 
@@ -31,7 +33,7 @@ export function CardTemplate({ className, type, pageQuery, template, ...props }:
     const { toast } = useToast();
     const { user } = useContext(authContext);
 
-    const { mutate, isPending, isError } = useMutation({
+    const { mutate, isPending, isError, error } = useMutation({
         mutationFn: deleteTemplate,
         mutationKey: ["template", user?.id, pageQuery],
         onSuccess: (data) => {
@@ -41,8 +43,10 @@ export function CardTemplate({ className, type, pageQuery, template, ...props }:
             queryClient.invalidateQueries({ queryKey: ["template", user?.id, pageQuery] });
         },
         onError: (error) => {
+            const errorMessage = ((error as AxiosError)?.response?.data as { message?: string })?.message ||
+                error.message;
             toast({
-                title: error.message,
+                title: errorMessage,
                 variant: "destructive"
             })
         }
@@ -71,7 +75,6 @@ export function CardTemplate({ className, type, pageQuery, template, ...props }:
                     </div>
                 </div>
             </CardContent>
-
             <CardFooter className="flex gap-2">
                 <DialogTemplate templateData={template} pageQuery={pageQuery}>
                     {/* <Link to={`template/${template.id}`} className="w-full"> */}
@@ -80,8 +83,9 @@ export function CardTemplate({ className, type, pageQuery, template, ...props }:
                 </DialogTemplate>
                 {type === "user" &&
                     <AlertDialogTemplate deleteTemplateHandler={deleteTemplateHandler} dialogDescription="This action cannot be undone. This will permanently delete the template and you will not be able to recover it.">
-                        <Button variant="destructive" className="p-2" disabled={isPending || isError}>
-                            <Trash2 className="w-5 h-5" />
+                        <Button variant="destructive" className="p-2" disabled={isPending}>
+                            {!isPending && <Trash2 className="w-5 h-5" />}
+                            {isPending && <ClipLoader color="var(rgb(--foreground))" cssOverride={{ width: "20px", height: "20px" }} />}
                         </Button>
                     </AlertDialogTemplate>
                 }

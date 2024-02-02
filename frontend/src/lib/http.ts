@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { LoginInputs, SignupInputs, TemplateData, TemplateInputs } from "./types";
+import axios, { AxiosError } from "axios";
+import { LoginInputs, SignupInputs, TemplateInputs } from "./types";
 
 export const queryClient = new QueryClient();
 
@@ -119,7 +119,7 @@ export const resetPassword = async ({ password, token }: { password: string, tok
 }
 
 // google signin
-export const googleSignIn = async ({ code }: { code: any }) => {
+export const googleSignIn = async ({ code, toast }: { code: any, toast: any }) => {
     try {
         const response = await axios({
             url: "http://localhost:8080/auth/google",
@@ -130,7 +130,13 @@ export const googleSignIn = async ({ code }: { code: any }) => {
         return response.data;
     }
     catch (error) {
-        console.log(error);
+        const errorMessage = ((error as AxiosError)?.response?.data as { message?: string })?.message ||
+            'Default error message';
+            
+        toast({
+            variant: "destructive",
+            title: errorMessage
+        })
         throw error
     }
 }

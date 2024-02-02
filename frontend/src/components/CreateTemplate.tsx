@@ -9,6 +9,8 @@ import CrossIcon from "./ui/icons/CrossIcon"
 import { TemplateInputs } from "@/lib/types"
 import { useFormik } from "formik"
 import { useNavigate } from "react-router"
+import Spinner from "./ui/spinner"
+import ClipLoader from "react-spinners/ClipLoader"
 
 interface TemplateInputsErrors {
     title?: string;
@@ -94,6 +96,13 @@ const CreateTemplate = (props: Props) => {
         setTag(newArr);
     }
 
+    const handleKeyDown = (e: any) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent the default behavior of the Enter key (e.g., form submission)
+            tagAddHandler();
+        }
+    };
+
     return (
         <form className="p-8 flex flex-col gap-4" onSubmit={formik.handleSubmit}>
             <CardHeader>
@@ -133,9 +142,19 @@ const CreateTemplate = (props: Props) => {
                     })}
                 </div>
                 <div className="flex justify-start">
-                    <Input id="tags" placeholder="Add tag from 1 to 3" value={tagInput} onChange={tagInputChangeHandler} autoComplete="off" />
-                    <div style={{ marginLeft: "-55px" }} className="flex items-center">
-                        <Button type="button" variant="secondary" className="h-7 m-[-6px]" onClick={tagAddHandler}>add</Button>
+                    <Input
+                        type="tags"
+                        id="tags"
+                        placeholder="Add tag from 1 to 3"
+                        value={tagInput}
+                        onChange={tagInputChangeHandler}
+                        onKeyDown={handleKeyDown}
+                        autoComplete="off"
+                    />
+                    <div style={{ marginLeft: '-55px' }} className="flex items-center">
+                        <Button type="button" variant="secondary" className="h-7 m-[-6px]" onClick={tagAddHandler}>
+                            add
+                        </Button>
                     </div>
                 </div>
                 {formik.errors.tags ? (
@@ -144,7 +163,10 @@ const CreateTemplate = (props: Props) => {
             </div>
 
             <div className="flex justify-start gap-4">
-                <Button type="submit" disabled={props.isSending}>Save</Button>
+                <Button type="submit" disabled={props.isSending}>
+                    {props.isSending && <ClipLoader cssOverride={{ width: "20px", height: "20px" }} className="mr-2" />}
+                    <span>Save</span>
+                </Button>
                 <Button variant="outline" onClick={() => navigate("/")}>Cancel</Button>
                 {props.isSubmissionError &&
                     <div className="text-xs text-red-500 flex justify-start items-center">

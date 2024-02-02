@@ -11,6 +11,7 @@ import axios from "axios"
 import { UploadCloudIcon } from "lucide-react"
 import { ChangeEvent, useContext, useState } from "react"
 import { useNavigate } from "react-router"
+import ClipLoader from "react-spinners/ClipLoader"
 
 const SettingsPage = () => {
   const { toast } = useToast();
@@ -93,8 +94,8 @@ const SettingsPage = () => {
       <div className="flex flex-col justify-center items-center">
         <Avatar className="relative group">
           {!loading && <AvatarImage src={user?.profilePicture} className="w-16 h-16 rounded-full cursor-pointer" />}
-          {loading && <p>Uploading...</p>}
-          <label htmlFor="file" className={`w-16 h-16 rounded-full cursor-pointer absolute top-0 left-0 group-hover:flex group-hover:z-10 bg-black opacity-50 hidden group-hover: justify-center group-hover:items-center`}>
+          {loading && <ClipLoader color="var(rgb(--foreground))" cssOverride={{ width: "20px", height: "20px" }} className="mr-2" />}
+          <label htmlFor="file" className={`w-16 h-16 rounded-full cursor-pointer absolute top-0 left-0 group-hover:flex group-hover:z-10 bg-black opacity-70 hidden group-hover: justify-center group-hover:items-center`}>
             <UploadCloudIcon />
           </label>
           <input type="file" id="file" onChange={handleUploadFile} hidden />

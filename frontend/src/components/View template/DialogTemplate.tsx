@@ -17,6 +17,7 @@ import { DropdownMenuTemplate } from "./DropDownTemplate";
 import { useNavigate } from "react-router";
 import { useContext, useEffect, useState } from "react";
 import { authContext } from "@/App";
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface Props {
     children: any,
@@ -62,6 +63,7 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                     <DialogTitle className="flex justify-between items-center">
                         {templateData.title}
                         {user?.id && user?.id === templateData.creator.id && <DropdownMenuTemplate templateId={templateData.id} pageQuery={pageQuery} navigateToEditPage={navigateToEditTemplateHandler}>
+                            {/* <ClipLoader color="var(rgb(--foreground))" cssOverride={{ width: "20px", height: "20px" }} className="mr-2" /> */}
                             <Button variant="ghost" className="w-6 h-7 mr-9 p-1 cursor-pointer" >
                                 <ThreeDotIcon className="w-full h-full " />
                             </Button>
@@ -69,7 +71,7 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                     </DialogTitle>
                     <DialogDescription className="flex justify-start items-center">
                         <Avatar>
-                            <AvatarImage src="https://github.com/shadcn.png" className="w-6 h-6 rounded-full" />
+                            <AvatarImage src={templateData.creator.profilePicture} className="w-6 h-6 rounded-full" />
                             <AvatarFallback>Avatar{" "}</AvatarFallback>
                         </Avatar>
                         &nbsp;&nbsp;

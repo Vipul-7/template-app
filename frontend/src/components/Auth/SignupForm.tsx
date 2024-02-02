@@ -14,6 +14,7 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import GoogleAuth from "./GoogleAuth";
 import { AxiosError } from "axios";
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface Props {
     onSubmit: (values: SignupInputs) => void,
@@ -116,19 +117,10 @@ const SignupForm = (props: Props) => {
                     <Button variant="secondary">Login</Button>
                 </Link>
 
-                {!props.isSending && (
-                    // <Button disabled={isNotValid || props.isSending}>Submit</Button>
-                    <Button disabled={props.isSending} type="submit" form="signupForm">Submit</Button>
-                )}
-                {props.isSending && (
-                    <p>Loading...</p>
-                )}
-                {/* <CardDescription className="">
-                    Already have an account?{" "}
-                    <Link to="/login" >
-                        <Button variant="link">Login</Button>
-                    </Link>
-                </CardDescription> */}
+                <Button disabled={props.isSending} type="submit" form="signupForm">
+                    {props.isSending && <ClipLoader cssOverride={{ width: "20px", height: "20px" }} className="mr-2" />}
+                    <span>Submit</span>
+                </Button>
             </CardFooter>
             <GoogleAuth />
         </Card>

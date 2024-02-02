@@ -7,6 +7,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { TemplateData } from "@/lib/types";
 import { CardTemplate } from "./All templates/CardTemplate";
+import SkeletonDisplayTemplates from "./SkeletonDisplayTemplates";
 
 interface Props {
     pageQuery: number;
@@ -23,7 +24,7 @@ const DisplayTemplates = ({ pageQuery, setPageQuery, totalPages, type, data, isP
     return (
         <div className="p-4" >
             {isPending ? (
-                <div>Loading...</div>
+                <SkeletonDisplayTemplates />
             ) : isError ? (
                 <div>Error: {error.message}</div>
             ) : (
@@ -32,7 +33,7 @@ const DisplayTemplates = ({ pageQuery, setPageQuery, totalPages, type, data, isP
                         <>
                             {<div className="grid grid-cols-3 justify-items-center gap-4">
                                 {data.templates.map((item: TemplateData) => (
-                                    <CardTemplate key={item.id} template={item} pageQuery={pageQuery} type={type}/>
+                                    <CardTemplate key={item.id} template={item} pageQuery={pageQuery} type={type} />
                                 ))}
                             </div>}
                             <div className="p-2 my-2">
@@ -69,7 +70,6 @@ const DisplayTemplates = ({ pageQuery, setPageQuery, totalPages, type, data, isP
                     ) : (
                         <div>No templates available.</div>
                     )}
-
                 </>
             )}
         </div>

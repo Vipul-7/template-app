@@ -1,22 +1,24 @@
 import { Separator } from "@radix-ui/react-dropdown-menu"
 import { Button } from "../ui/button"
 import GoogleIcon from "../ui/icons/GoogleIcon"
-import { useQuery } from "@tanstack/react-query"
 import { googleSignIn, queryClient } from "@/lib/http"
 import { useContext, useState } from "react"
 import { authContext } from "@/App"
 import { useNavigate } from "react-router"
 import { useGoogleLogin } from "@react-oauth/google"
 import { useToast } from "../ui/use-toast"
+import ClipLoader from "react-spinners/ClipLoader"
 
 const GoogleAuth = () => {
     const { toast } = useToast();
     const { setIsAuth, setUser } = useContext(authContext);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const login = useGoogleLogin({
         onSuccess: async ({ code }) => {
-            const data = await googleSignIn({ code });
+            setIsLoading(true);
+            const data = await googleSignIn({ code, toast });
 
             if (data) {
                 toast({
@@ -31,8 +33,9 @@ const GoogleAuth = () => {
 
                 queryClient.invalidateQueries({ queryKey: ["user", data.user.id] });
             }
+            setIsLoading(false);
         },
-        flow: "auth-code"
+        flow: "auth-code",
     })
 
     return (
@@ -43,8 +46,9 @@ const GoogleAuth = () => {
                 <Separator className="w-[25%] h-[1px] bg-[#A1A1AA]" />
             </div>
 
-            <Button variant="outline" className="w-full mt-5 mb-7" onClick={() => login()}>
-                <GoogleIcon className="w-5 h-5 mr-2 fill-white" />
+            <Button variant="outline" className="w-full mt-5 mb-7" onClick={() => login()} disabled={isLoading}>
+                {isLoading && <ClipLoader color="var(rgb(--foreground))" cssOverride={{ width: "20px", height: "20px" }} className="mr-2" />}
+                <GoogleIcon className="w-5 h-5 mr-2 fill-primary" />
                 <span>Google</span>
             </Button>
             {/* {isError && <div className="text-red-50">{error.message}</div>} */}
