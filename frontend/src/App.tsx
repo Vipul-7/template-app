@@ -16,6 +16,8 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import EditTemplatePage from './pages/EditTemplate'
 import SettingsPage from './pages/Settings'
 import { UserDetails } from "./lib/types"
+import SendResetPasswordLinkPage from './pages/SendResetPasswordLink'
+import ResetPasswordPage from './pages/ResetPassword'
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID!;
 
@@ -41,6 +43,10 @@ function App() {
                   <Route index={true} element={<HomePage />}></Route>
                   <Route path='signup' element={<SignupPage />}></Route>
                   <Route path='login' element={<LoginPage />}></Route>
+                  <Route path='reset-password'>
+                    <Route index={true} element={<ResetPasswordPage />} />
+                    <Route path='send-link' element={<SendResetPasswordLinkPage />} />
+                  </Route>
                   {/* <Route path='template/:templateId' element={<TemplatePage />}></Route> */}
                   <Route path='my-templates' element={<ProtectedRoute Component={MyTemplatesPage} />}></Route>
                   <Route path='template/edit/:templateId' element={<EditTemplatePage />} />

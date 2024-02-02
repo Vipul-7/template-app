@@ -105,6 +105,7 @@ const SettingsPage = () => {
             {user?.email}
           </CardDescription>
           {!user?.isEmailVerified && <Badge variant="destructive">Not verified</Badge>}
+          {user?.isEmailVerified && <Badge variant="default">Verified</Badge>}
           {/* <Button variant="link" className="p-1">Verify email</Button> */}
         </div>
 

@@ -7,6 +7,7 @@ import { AppDataSource } from "../data-source";
 import { validationResult } from "express-validator";
 import axios from "axios";
 import { OAuth2Client } from "google-auth-library";
+import { sendMail } from "../util/transporter";
 
 require("dotenv").config({ path: "../../.env" });
 
@@ -14,7 +15,7 @@ export const putSignup = async (req: Request, res: Response, next: NextFunction)
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array()[0] });
+        return res.status(422).json({ message: errors.array()[0].msg });
     }
 
     const email = req.body.email;
@@ -40,9 +41,20 @@ export const putSignup = async (req: Request, res: Response, next: NextFunction)
         user.firstName = firstName;
         user.lastName = lastName;
         user.password = hashedPassword;
-        // user.signedInWithGoogle = false;
 
         const createdUser = await userRepository.save(user);
+
+        const mailOptions = {
+            from: {
+                name: "Vipul Chaudhary",
+                address: process.env.APP_USER
+            },
+            to: user.email,
+            subject: "Welcome to template app",
+            html: "<h3>Thank you for Signup on template app.</h3>"
+        }
+
+        await sendMail(mailOptions);
 
         return res.status(200).json(createdUser);
     }
@@ -57,7 +69,7 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     const validationErrors = validationResult(req);
 
     if (!validationErrors.isEmpty()) {
-        return res.status(422).json({ errors: validationErrors.array()[0] })
+        return res.status(422).json({ message: validationErrors.array()[0].msg })
     }
 
     const email = req.body.email;
@@ -82,6 +94,84 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     });
 
     res.status(200).json({ token, user })
+}
+
+// reset password
+export const resetPasswordSendLink = async (req: Request, res: Response, next: NextFunction) => {
+    const validationErrors = validationResult(req);
+
+    if (!validationErrors.isEmpty()) {
+        return res.status(422).json({ errors: validationErrors.array()[0] })
+    }
+
+    try {
+        const email = req.body.email;
+
+        const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+
+        const mailOptions = {
+            from: {
+                name: "Vipul Chaudhary",
+                address: process.env.APP_USER
+            },
+            to: email,
+            subject: "Reset password for template app",
+            html: `<p>To reset the password for template app click on <a href="http://localhost:5173/reset-password/?token=${token}">this</a> link.</p>
+                    <p>If you have not send request for reset-password please ignore this mail.</p>`
+        }
+
+        await sendMail(mailOptions);
+
+        res.status(200).json({
+            message: "Successfully send the reset password link to your email and it will be valid for 1 hour"
+        });
+    } catch (err) {
+        err.statusCode = 500;
+        err.message = "error while sending the reset password link"
+        return next(err);
+    }
+}
+
+export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+    const validationErrors = validationResult(req);
+
+    if (!validationErrors.isEmpty()) {
+        return res.status(422).json({ errors: validationErrors.array()[0] })
+    }
+
+    const token = req.query.token;
+
+    if (!token) {
+        return res.status(400).json({ message: "Invalid token" });
+    }
+
+    const newPassword = req.body.newPassword;
+
+    try {
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+        const userRepository = AppDataSource.getRepository(User);
+
+        const user = await userRepository.findOneBy({
+            email: decodedToken.email
+        })
+
+        if (!user) {
+            return res.status(404).json({ message: "User does not exists!" });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+        user.password = hashedPassword;
+
+        await userRepository.save(user);
+
+        res.status(200).json({ message: "Password reset successfully" });
+    } catch (err) {
+        err.statusCode = 500;
+        err.message = "error while reset the password"
+        return next(err);
+    }
 }
 
 // google auth
@@ -122,6 +212,7 @@ export const googleSignIn = async (req: Request, res: Response, next: NextFuncti
             user.lastName = profile.family_name;
             user.signedInWithGoogle = true;
             user.profilePicture = profile.picture;
+            user.isEmailVerified = true;
 
             await userRepository.save(user);
 

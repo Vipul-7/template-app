@@ -39,7 +39,7 @@ const validate = (values: SignupInputs) => {
         errors.email = "Enter a valid email address";
     }
 
-    if (!values.password || values.password.length < 6) {
+    if (!values.password || values.password.length < 5) {
         errors.password = "Password must be atleast 5 characters";
     }
 
@@ -109,7 +109,7 @@ const SignupForm = (props: Props) => {
                     </div>
                 </form>
             </CardContent>
-            {props.isError && <p className="text-xs text-red-400">{(props.error?.response?.data as { errors?: { msg?: string } })?.errors?.msg ||
+            {props.isError && <p className="text-xs text-red-400">{(props.error?.response?.data as { message?: string })?.message ||
                 'Default error message'}</p>}
             <CardFooter className="flex justify-between items-end space-y-2 space-x-3">
                 <Link to="/login" >

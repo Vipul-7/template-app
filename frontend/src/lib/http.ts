@@ -5,6 +5,7 @@ import { LoginInputs, SignupInputs, TemplateData, TemplateInputs } from "./types
 export const queryClient = new QueryClient();
 
 export const getTemplates = async ({ pageQuery, signal }: { pageQuery: number, signal: any }) => {
+    // console.log("sending a request");
     const response = await axios({
         url: `http://localhost:8080/templates/?page=${pageQuery}`,
         method: "GET",
@@ -96,6 +97,28 @@ export const signup = async (singupData: SignupInputs) => {
     return reponse.data;
 }
 
+// reset password
+export const sendResetPasswordLink = async (email: string) => {
+    const reponse = await axios({
+        url: "http://localhost:8080/auth/reset-password/send-link",
+        method: "POST",
+        data: { email },
+    })
+
+    return reponse.data;
+}
+
+export const resetPassword = async ({ password, token }: { password: string, token: string | null }) => {
+    const reponse = await axios({
+        url: `http://localhost:8080/auth/reset-password/?token=${token}`,
+        method: "POST",
+        data: { newPassword: password },
+    })
+
+    return reponse.data;
+}
+
+// google signin
 export const googleSignIn = async ({ code }: { code: any }) => {
     try {
         const response = await axios({
@@ -112,6 +135,7 @@ export const googleSignIn = async ({ code }: { code: any }) => {
     }
 }
 
+// delete user
 export const deleteUser = async (userId: number) => {
     const response = await axios({
         url: `http://localhost:8080/user/delete/${userId}`,

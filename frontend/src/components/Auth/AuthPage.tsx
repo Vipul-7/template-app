@@ -21,7 +21,6 @@ const AuthPage = (props: { auth: string }) => {
       //   window.alert(data.error);
       // }
 
-      console.log(data);
       if (data.token) {
         localStorage.setItem("token", data.token);
         // localStorage.setItem("userId", data.userId);

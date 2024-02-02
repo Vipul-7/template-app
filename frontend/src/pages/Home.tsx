@@ -15,7 +15,7 @@ const HomePage = () => {
     } = useQuery({
         queryKey: ["template", pageQuery],
         queryFn: ({ signal }) => getTemplates({ pageQuery, signal }),
-        placeholderData: keepPreviousData,
+        placeholderData: keepPreviousData
     });
 
     useEffect(() => {
