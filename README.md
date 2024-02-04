@@ -10,7 +10,7 @@
 
 ## Want to contribute?
 
-[env.example](.env.example) - Example of .env file for backend and frontend
+[env.example](env.example) - Example of .env file for backend and frontend
 
 ```sh
 
