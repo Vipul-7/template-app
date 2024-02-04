@@ -8,7 +8,7 @@
 - I used [react-query](https://react-query.tanstack.com/) for asynchronous state management.
 - I used tailwindcss for styling.
 
-## Want to contribute?
+## Want to run locally?
 
 [env.example](env.example) - Example of .env file for backend and frontend
 
