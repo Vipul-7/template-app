@@ -9,6 +9,7 @@ import { PlusIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import DropDownProfile from "./DropDownProfile";
 import { JwtPayload } from "jsonwebtoken";
+import LogoIcon from "./ui/icons/LogoIcon";
 
 interface CustomizedJwtPayload extends JwtPayload {
     user: User
@@ -32,7 +33,11 @@ const NavBar = () => {
     
     return (
         <nav className="flex justify-between items-center w-full h-18 p-2 border-b">
-            <Link to="/" className="flex-[0.3%] text-start"><div className="text-xl font-bold">Templates</div></Link>
+            <Link to="/" className="flex-[0.3%] text-start">
+                <div className="text-xl font-bold">
+                    <img src="../assests/logo.png" alt="logo"/>
+                </div>
+            </Link>
             <Link to="/create-template">
                 <Button className="flex items-center">
                     <PlusIcon className="w-4 h-4" />

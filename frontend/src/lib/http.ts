@@ -119,7 +119,7 @@ export const resetPassword = async ({ password, token }: { password: string, tok
 }
 
 // google signin
-export const googleSignIn = async ({ code, toast }: { code: any, toast: any }) => {
+export const googleSignIn = async ({ code, toast, setIsLoading }: { code: any, toast: any, setIsLoading: (state: boolean) => any }) => {
     try {
         const response = await axios({
             url: "http://localhost:8080/auth/google",
@@ -132,7 +132,8 @@ export const googleSignIn = async ({ code, toast }: { code: any, toast: any }) =
     catch (error) {
         const errorMessage = ((error as AxiosError)?.response?.data as { message?: string })?.message ||
             'Default error message';
-            
+
+        setIsLoading(false);
         toast({
             variant: "destructive",
             title: errorMessage

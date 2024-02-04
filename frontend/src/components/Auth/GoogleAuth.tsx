@@ -18,7 +18,7 @@ const GoogleAuth = () => {
     const login = useGoogleLogin({
         onSuccess: async ({ code }) => {
             setIsLoading(true);
-            const data = await googleSignIn({ code, toast });
+            const data = await googleSignIn({ code, toast, setIsLoading });
 
             if (data) {
                 toast({

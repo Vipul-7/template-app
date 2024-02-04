@@ -8,12 +8,17 @@
 - I used [react-query](https://react-query.tanstack.com/) for asynchronous state management.
 - I used tailwindcss for styling.
 
-## Installation
+## Want to contribute?
 
-<!-- Instructions on how to install and set up the project. -->
-Install the dependencies and devDependencies and start the server.
+[env.example](.env.example) - Example of .env file for backend and frontend
 
 ```sh
+
+# Clone the repository
+
+git clone
+
+# Fill the .env file with your own credentials
 
 # Install dependencies from both frontend and backend directories
 
