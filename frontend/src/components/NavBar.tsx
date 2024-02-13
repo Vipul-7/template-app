@@ -34,8 +34,8 @@ const NavBar = () => {
     return (
         <nav className="flex justify-between items-center w-full h-18 p-2 border-b">
             <Link to="/" className="flex-[0.3%] text-start">
-                <div className="text-xl font-bold">
-                    <img src="../assests/logo.png" alt="logo"/>
+                <div className="text-xl font-bold font-mono">
+                    Template
                 </div>
             </Link>
             <Link to="/create-template">
