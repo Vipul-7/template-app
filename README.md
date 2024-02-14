@@ -8,6 +8,12 @@
 - I used [react-query](https://react-query.tanstack.com/) for asynchronous state management.
 - I used tailwindcss for styling.
 
+# Production
+
+- Server is deployed on Render.
+- Used PostgreSQL database provider as Render.
+- [Frontend](https://template-akwk73ap4-vipul-7.vercel.app/) is deployed on vercel.
+
 ## Want to run in local?
 
 [env.example](env.example) - Example of .env file for backend and frontend
