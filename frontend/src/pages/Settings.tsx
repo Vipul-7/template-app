@@ -67,7 +67,7 @@ const SettingsPage = () => {
       const data = new FormData();
       data.append("avatar", e.target?.files ? e.target.files[0] : "");
       const res = await axios({
-        url: "http://localhost:8080/upload/avatar",
+        url: "https://template-app-server.onrender.com/upload/avatar",
         method: "POST",
         data,
         headers: {
