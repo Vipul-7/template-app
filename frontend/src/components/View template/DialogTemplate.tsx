@@ -17,6 +17,8 @@ import { DropdownMenuTemplate } from "./DropDownTemplate";
 import { useNavigate } from "react-router";
 import { useContext, useEffect, useState } from "react";
 import { authContext } from "@/App";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { useToast } from "../ui/use-toast";
 
 interface Props {
     children: any,
@@ -25,6 +27,7 @@ interface Props {
 }
 
 const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
+    const { toast } = useToast();
     const navigate = useNavigate();
     const [formattedCreationDate, setFormattedCreationDate] = useState<string>("");
     const [formattedLastUpdatedDate, setFormattedLastUpdatedDate] = useState<string | null>(null);
@@ -52,6 +55,14 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
         });
     }
 
+    const copyToClipBoardHandler = () => {
+        navigator.clipboard.writeText(templateData.description);
+        toast({
+            title: "Template description is copied to clipboard",
+            duration: 2000
+        })
+    }
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -62,7 +73,6 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                     <DialogTitle className="flex justify-between items-center">
                         {templateData.title}
                         {user?.id && user?.id === templateData.creator.id && <DropdownMenuTemplate templateId={templateData.id} pageQuery={pageQuery} navigateToEditPage={navigateToEditTemplateHandler}>
-                            {/* <ClipLoader color="var(rgb(--foreground))" cssOverride={{ width: "20px", height: "20px" }} className="mr-2" /> */}
                             <Button variant="ghost" className="w-6 h-7 mr-9 p-1 cursor-pointer" >
                                 <ThreeDotIcon className="w-full h-full " />
                             </Button>
@@ -86,9 +96,22 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                                 <Badge key={keyword.id} className="mr-2" variant="outline">{keyword.value}</Badge>
                             )
                         })}</div>
-                    <ScrollArea className="w-full h-[50vh]  bg-secondary p-2 rounded-md mt-2 overflow-auto custom-scrollbar whitespace-pre-line">
-                        {templateData.description}
-                    </ScrollArea>
+                    <div className="flex flex-col justify-center items-end">
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Button onClick={copyToClipBoardHandler} className="py-0 px-2 h-full">copy</Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Copy to clipboard</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+
+                        <ScrollArea className="w-full h-[50vh]  bg-secondary p-2 rounded-md mt-2 overflow-auto custom-scrollbar whitespace-pre-line">
+                            {templateData.description}
+                        </ScrollArea>
+                    </div>
                     <DialogDescription className="flex flex-col items-end mt-3">
                         <div>
                             Created at {" "}{formattedCreationDate}

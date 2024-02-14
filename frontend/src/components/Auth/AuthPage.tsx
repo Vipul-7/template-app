@@ -4,10 +4,9 @@ import { useNavigate } from "react-router"
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import { LoginInputs, SignupInputs, User } from "@/lib/types";
-// import { authContext } from "@/App";
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 import { authContext } from "@/App";
-import { Axios, AxiosError } from "axios";
+import {  AxiosError } from "axios";
 
 
 const AuthPage = (props: { auth: string }) => {

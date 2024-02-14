@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./theme/ModeToggle";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect} from "react";
 import { decodeToken } from "@/lib/decodeToken";
-import { TokenData, User } from "@/lib/types";
+import { User } from "@/lib/types";
 import { authContext } from "@/App";
 import { PlusIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import DropDownProfile from "./DropDownProfile";
 import { JwtPayload } from "jsonwebtoken";
-import LogoIcon from "./ui/icons/LogoIcon";
 
 interface CustomizedJwtPayload extends JwtPayload {
     user: User
