@@ -33,7 +33,7 @@ export function CardTemplate({ className, type, pageQuery, template, ...props }:
     const { toast } = useToast();
     const { user } = useContext(authContext);
 
-    const { mutate, isPending, isError, error } = useMutation({
+    const { mutate, isPending} = useMutation({
         mutationFn: deleteTemplate,
         mutationKey: ["template", user?.id, pageQuery],
         onSuccess: (data) => {

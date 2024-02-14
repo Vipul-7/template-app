@@ -17,7 +17,6 @@ import { DropdownMenuTemplate } from "./DropDownTemplate";
 import { useNavigate } from "react-router";
 import { useContext, useEffect, useState } from "react";
 import { authContext } from "@/App";
-import ClipLoader from "react-spinners/ClipLoader";
 
 interface Props {
     children: any,

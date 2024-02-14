@@ -9,7 +9,6 @@ import CrossIcon from "./ui/icons/CrossIcon"
 import { TemplateInputs } from "@/lib/types"
 import { useFormik } from "formik"
 import { useNavigate } from "react-router"
-import Spinner from "./ui/spinner"
 import ClipLoader from "react-spinners/ClipLoader"
 
 interface TemplateInputsErrors {
@@ -91,6 +90,7 @@ const CreateTemplate = (props: Props) => {
     }
 
     const removeTagHandler = (tagIndex: number) => {
+        // @ts-ignore
         const newArr = tag.filter((t, curIdx) => curIdx !== tagIndex);
         formik.setFieldValue("tags", newArr);
         setTag(newArr);

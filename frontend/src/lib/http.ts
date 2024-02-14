@@ -5,7 +5,7 @@ import { LoginInputs, SignupInputs, TemplateInputs } from "./types";
 export const queryClient = new QueryClient();
 
 const mainUrl = "https://template-app-server.onrender.com";
-const prevUrl = "http://localhost:8080"
+// const prevUrl = "http://localhost:8080"
 
 export const getTemplates = async ({ pageQuery, signal }: { pageQuery: number, signal: any }) => {
     // console.log("sending a request");

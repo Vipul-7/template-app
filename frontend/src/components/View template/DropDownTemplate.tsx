@@ -1,15 +1,15 @@
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
+    // DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuPortal,
+    // DropdownMenuPortal,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
+    // DropdownMenuShortcut,
+    // DropdownMenuSub,
+    // DropdownMenuSubContent,
+    // DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { deleteTemplate, queryClient } from "@/lib/http"
@@ -28,7 +28,7 @@ export function DropdownMenuTemplate({ children, templateId, pageQuery, navigate
     const navigate = useNavigate();
     const { toast } = useToast();
 
-    const { mutate, isError, error, isPending } = useMutation({
+    const { mutate } = useMutation({
         mutationFn: deleteTemplate,
         mutationKey: ["template", pageQuery], // update pageQuery,
         onSuccess: (data) => {

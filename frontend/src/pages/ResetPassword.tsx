@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { useFormik } from "formik";
 import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { resetPassword, sendResetPasswordLink } from "@/lib/http";
+import { resetPassword } from "@/lib/http";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";

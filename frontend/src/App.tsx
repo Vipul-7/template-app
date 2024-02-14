@@ -23,8 +23,10 @@ const CLIENT_ID = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID!;
 
 export const authContext = React.createContext({
   isAuth: false,
+  // @ts-ignore
   setIsAuth: (value: boolean) => { },
   user: null as UserDetails | null,
+  // @ts-ignore
   setUser: (user: UserDetails | null) => { }
 });
 
