@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { sendResetPasswordLink } from "@/lib/http";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const validate = (values: { email: string }) => {
     const errors: { email?: string } = {};
@@ -79,12 +80,10 @@ const SendResetPasswordLinkPage = () => {
                 </CardContent>
 
                 <CardFooter>
-                    {!isPending && (
-                        <Button disabled={isPending} type="submit" form="send-link" className="w-full">Submit</Button>
-                    )}
-                    {isPending && (
-                        <p>Loading...</p>
-                    )}
+                    <Button disabled={isPending} type="submit" form="send-link" className="w-full">
+                        {isPending && <ClipLoader color="var(rgb(--foreground))" cssOverride={{ width: "20px", height: "20px" }} className="mr-2" />}
+                        <span>Submit</span>
+                    </Button>
                 </CardFooter>
             </Card>
         </main>

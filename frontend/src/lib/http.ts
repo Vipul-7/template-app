@@ -134,7 +134,7 @@ export const googleSignIn = async ({ code, toast, setIsLoading }: { code: any, t
     }
     catch (error) {
         const errorMessage = ((error as AxiosError)?.response?.data as { message?: string })?.message ||
-            'Default error message';
+            'Error occured while signin with google';
 
         setIsLoading(false);
         toast({
