@@ -10,6 +10,7 @@ import { TemplateInputs } from "@/lib/types"
 import { useFormik } from "formik"
 import { useNavigate } from "react-router"
 import ClipLoader from "react-spinners/ClipLoader"
+import { AxiosError } from "axios"
 
 interface TemplateInputsErrors {
     title?: string;
@@ -173,6 +174,16 @@ const CreateTemplate = (props: Props) => {
                         {props.submissionError?.message}
                     </div>}
             </div>
+            {
+                props.isSubmissionError &&
+                <div className="text-xs text-red-500 flex flex-col items-start">
+                    {((props.submissionError as AxiosError)?.response?.data as { errors?: { msg?: string }[] })?.errors?.map((e) => {
+                        return <div key={e.msg}>{e.msg}</div>
+                    }) ||
+                        props.submissionError?.message}
+                </div>
+            }
+
         </form>
     )
 }
