@@ -169,10 +169,6 @@ const CreateTemplate = (props: Props) => {
                     <span>Save</span>
                 </Button>
                 <Button variant="outline" onClick={() => navigate("/")}>Cancel</Button>
-                {props.isSubmissionError &&
-                    <div className="text-xs text-red-500 flex justify-start items-center">
-                        {props.submissionError?.message}
-                    </div>}
             </div>
             {
                 props.isSubmissionError &&
