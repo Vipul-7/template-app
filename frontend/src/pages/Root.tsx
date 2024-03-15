@@ -1,4 +1,4 @@
-import NavBar from "@/components/NavBar"
+import NavBar from "@/components/Navigation/NavBar"
 import { Toaster } from "@/components/ui/toaster"
 import { Outlet } from "react-router"
 

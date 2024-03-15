@@ -4,13 +4,13 @@ import { LoginInputs, SignupInputs, TemplateInputs } from "./types";
 
 export const queryClient = new QueryClient();
 
-const mainUrl = "https://template-app-server.onrender.com";
-// const prevUrl = "http://localhost:8080"
+const productionUrl = "https://template-app-server.onrender.com";
+const devUrl = "http://localhost:8080"
 
 export const getTemplates = async ({ pageQuery, signal }: { pageQuery: number, signal: any }) => {
     // console.log("sending a request");
     const response = await axios({
-        url: `${mainUrl}/templates/?page=${pageQuery}`,
+        url: `${devUrl}/templates/?page=${pageQuery}`,
         method: "GET",
         signal: signal
     })
@@ -21,7 +21,7 @@ export const getTemplates = async ({ pageQuery, signal }: { pageQuery: number, s
 export const getUserTemplates = async ({ pageQuery, signal }: { pageQuery: number, signal: any }) => {
     const response = await axios({
         method: "GET",
-        url: `${mainUrl}/templates/user?page=${pageQuery}`,
+        url: `${devUrl}/templates/user?page=${pageQuery}`,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
         },
@@ -33,7 +33,7 @@ export const getUserTemplates = async ({ pageQuery, signal }: { pageQuery: numbe
 
 export const createTemplate = async (templateData: TemplateInputs) => {
     const response = await axios({
-        url: `${mainUrl}/template/create`,
+        url: `${devUrl}/template/create`,
         method: "POST",
         data: {
             title: templateData.title,
@@ -50,7 +50,7 @@ export const createTemplate = async (templateData: TemplateInputs) => {
 
 export const editTemplate = async ({ templateId, title, description, tags }: { templateId: number } & TemplateInputs) => {
     const response = await axios({
-        url: `${mainUrl}/template/edit/${templateId}`,
+        url: `${devUrl}/template/edit/${templateId}`,
         method: "PATCH",
         data: {
             title, description, keywords: tags
@@ -65,7 +65,7 @@ export const editTemplate = async ({ templateId, title, description, tags }: { t
 
 export const deleteTemplate = async (templateId: number) => {
     const response = await axios({
-        url: `${mainUrl}/template/delete/${templateId}`,
+        url: `${devUrl}/template/delete/${templateId}`,
         method: "DELETE",
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -78,7 +78,7 @@ export const deleteTemplate = async (templateId: number) => {
 export const login = async (loginData: LoginInputs) => {
     try {
         const reponse = await axios({
-            url: `${mainUrl}/auth/login`,
+            url: `${devUrl}/auth/login`,
             method: "POST",
             data: loginData,
         })
@@ -92,7 +92,7 @@ export const login = async (loginData: LoginInputs) => {
 
 export const signup = async (singupData: SignupInputs) => {
     const reponse = await axios({
-        url: `${mainUrl}/auth/signup`,
+        url: `${devUrl}/auth/signup`,
         method: "PUT",
         data: singupData,
     })
@@ -103,7 +103,7 @@ export const signup = async (singupData: SignupInputs) => {
 // reset password
 export const sendResetPasswordLink = async (email: string) => {
     const reponse = await axios({
-        url: `${mainUrl}/auth/reset-password/send-link`,
+        url: `${devUrl}/auth/reset-password/send-link`,
         method: "POST",
         data: { email },
     })
@@ -113,7 +113,7 @@ export const sendResetPasswordLink = async (email: string) => {
 
 export const resetPassword = async ({ password, token }: { password: string, token: string | null }) => {
     const reponse = await axios({
-        url: `${mainUrl}/auth/reset-password/?token=${token}`,
+        url: `${devUrl}/auth/reset-password/?token=${token}`,
         method: "POST",
         data: { newPassword: password },
     })
@@ -125,7 +125,7 @@ export const resetPassword = async ({ password, token }: { password: string, tok
 export const googleSignIn = async ({ code, toast, setIsLoading }: { code: any, toast: any, setIsLoading: (state: boolean) => any }) => {
     try {
         const response = await axios({
-            url: `${mainUrl}/auth/google`,
+            url: `${devUrl}/auth/google`,
             method: "POST",
             data: { code }
         })
@@ -148,8 +148,21 @@ export const googleSignIn = async ({ code, toast, setIsLoading }: { code: any, t
 // delete user
 export const deleteUser = async (userId: number) => {
     const response = await axios({
-        url: `${mainUrl}/user/delete/${userId}`,
+        url: `${devUrl}/user/delete/${userId}`,
         method: "POST",
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+
+    return response.data;
+}
+
+export const uploadAvatar = async (data: any) => {
+    const response = await axios({
+        url: "https://template-app-server.onrender.com/upload/avatar",
+        method: "POST",
+        data,
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
         }

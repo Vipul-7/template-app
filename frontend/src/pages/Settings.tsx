@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
-import { deleteUser } from "@/lib/http"
+import { deleteUser, uploadAvatar } from "@/lib/http"
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
@@ -66,20 +66,13 @@ const SettingsPage = () => {
       setLoading(true);
       const data = new FormData();
       data.append("avatar", e.target?.files ? e.target.files[0] : "");
-      const res = await axios({
-        url: "https://template-app-server.onrender.com/upload/avatar",
-        method: "POST",
-        data,
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
-        }
-      })
-      setUser(res.data.user);
+      const resData = await uploadAvatar(data);
 
-      localStorage.setItem("token", res.data.token);
+      setUser(resData.user);
+      localStorage.setItem("token", resData.token);
 
       toast({
-        title: res.data.message
+        title: resData.message
       })
     } catch (error) {
       // alert(error?.message);

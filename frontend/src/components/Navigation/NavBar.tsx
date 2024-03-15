@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
-import { ModeToggle } from "./theme/ModeToggle";
+import { Button } from "../ui/button";
+import { ModeToggle } from "../theme/ModeToggle";
 import { useContext, useEffect} from "react";
 import { decodeToken } from "@/lib/decodeToken";
 import { User } from "@/lib/types";

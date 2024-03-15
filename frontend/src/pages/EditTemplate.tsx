@@ -1,4 +1,4 @@
-import CreateTemplate from '@/components/CreateTemplate'
+import CreateTemplate from '@/components/Create template/CreateTemplate'
 import { useToast } from '@/components/ui/use-toast';
 import { editTemplate } from '@/lib/http';
 import { TemplateInputs } from '@/lib/types';

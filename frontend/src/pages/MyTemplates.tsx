@@ -1,5 +1,5 @@
 import { authContext } from "@/App";
-import DisplayTemplates from "@/components/DisplayTemplates";
+import DisplayTemplates from "@/components/All templates/DisplayTemplates";
 import { getUserTemplates } from "@/lib/http";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";

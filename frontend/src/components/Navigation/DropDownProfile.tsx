@@ -1,5 +1,5 @@
 import { LogOutIcon, SettingsIcon } from "lucide-react"
-import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuSeparator } from "./ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuSeparator } from "../ui/dropdown-menu"
 import { Link } from "react-router-dom"
 
 interface Props {

@@ -1,7 +1,7 @@
 import { getTemplates } from "@/lib/http";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import DisplayTemplates from "@/components/DisplayTemplates";
+import DisplayTemplates from "@/components/All templates/DisplayTemplates";
 
 const HomePage = () => {
     const [pageQuery, setPageQuery] = useState(1);

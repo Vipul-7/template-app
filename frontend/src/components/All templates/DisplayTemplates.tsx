@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { TemplateData } from "@/lib/types";
-import { CardTemplate } from "./All templates/CardTemplate";
+import { CardTemplate } from "./CardTemplate";
 import SkeletonDisplayTemplates from "./SkeletonDisplayTemplates";
 
 interface Props {
