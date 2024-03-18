@@ -108,9 +108,7 @@ const DialogTemplate = ({ children, templateData, pageQuery }: Props) => {
                             </Tooltip>
                         </TooltipProvider>
 
-                        <ScrollArea className="w-full h-[50vh]  bg-secondary p-2 rounded-md mt-2 overflow-auto custom-scrollbar whitespace-pre-line">
-                            {templateData.description}
-                        </ScrollArea>
+                        <div className="w-full h-[50vh]  bg-secondary p-2 rounded-md mt-2 overflow-auto custom-scrollbar whitespace-pre-line bg-trans" dangerouslySetInnerHTML={{ __html: templateData.description }}/>
                     </div>
                     <DialogDescription className="flex flex-col items-end mt-3">
                         <div>

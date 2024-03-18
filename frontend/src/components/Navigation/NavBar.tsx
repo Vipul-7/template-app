@@ -40,7 +40,7 @@ const NavBar = () => {
             <Link to="/create-template">
                 <Button className="flex items-center">
                     <PlusIcon className="w-4 h-4" />
-                    &nbsp;Create Template</Button>
+                    &nbsp;Write Template</Button>
             </Link>
             <div className="flex items-center space-x-4 flex-[0.3%] justify-end">
                 <Link to="/my-templates">

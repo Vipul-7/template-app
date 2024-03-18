@@ -10,9 +10,7 @@ import { useFormik } from "formik"
 import { useNavigate } from "react-router"
 import ClipLoader from "react-spinners/ClipLoader"
 import { AxiosError } from "axios"
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import ActionRichTextEditorQuill from "./ActionRichTextEditorQuill"
 import ActionRichTextEditorDraftW from "./ActionRichTextEditorDraftW"
 
 interface TemplateInputsErrors {
@@ -44,9 +42,9 @@ const validate = (values: TemplateInputs) => {
         errors.title = "Title must be atleast 5 characters";
     }
 
-    if (!values.description || values.description.length < 10) {
-        errors.description = "Description must be atleast 10 characters";
-    }
+    // if (!values.description || values.description.length < 10) {
+    //     errors.description = "Description must be atleast 10 characters";
+    // }
 
     if (values.tags && values.tags.length === 0) {
         errors.tags = "Add atleast one tag";
@@ -57,7 +55,7 @@ const validate = (values: TemplateInputs) => {
 
 const CreateTemplate = (props: Props) => {
     const navigate = useNavigate();
-    const [value, setValue] = useState('');
+    const [contentValue, setContentValue] = useState('');
     const [tagInput, setTagInput] = useState<string>("");
     const [tag, setTag] = useState<string[]>([]);
 
@@ -70,12 +68,18 @@ const CreateTemplate = (props: Props) => {
     const formik = useFormik({
         initialValues: {
             title: props.templateData ? props.templateData.title : "",
-            description: props.templateData ? props.templateData.description : "",
+            // description: props.templateData ? props.templateData.description : "",
             tags: props.templateData ? props.templateData.keywords.map((keyword) => keyword.value) : []
         },
         validate,
         onSubmit: (values) => {
-            props.onSubmit(values);
+            console.log(values);
+
+            props.onSubmit({
+                title: values.title,
+                description: contentValue,
+                tags: values.tags
+            });
         },
     })
 
@@ -113,27 +117,29 @@ const CreateTemplate = (props: Props) => {
             <CardHeader>
                 <CardTitle>Write Template</CardTitle>
                 <CardDescription>
-                    Your templates are seen by everybody, but you are the only one who can update them.
+                    Your templates can see everybody, but you are the only one who can modify them.
                 </CardDescription>
             </CardHeader>
-            <div className="grid w-full max-w-sm items-center gap-1.5">
+            <div className="grid w-full max-w-sm items-center gap-1.5 mt-5">
                 <Label htmlFor="title" className="text-left">Title</Label>
                 <Input type="title" id="title" placeholder="Provide a corresponding title.
                 " onChange={formik.handleChange} value={formik.values.title} autoComplete="off"></Input>
                 {formik.touched.title && formik.errors.title ? (<div className="text-xs text-red-500 flex justify-start">{formik.errors.title}</div>
                 ) : null}
             </div>
-            <div className="grid w-full gap-1.5">
+            <div className="grid w-1/2 gap-1.5 mt-3">
                 <Label htmlFor="description" className="text-left">Content</Label>
                 {/* <Textarea placeholder="Write your template here..." id="description" className="resize-none min-h-64"
                     onChange={formik.handleChange} value={formik.values.description} />
                 {formik.touched.description && formik.errors.description ? (<div className="text-xs text-red-500 flex justify-start">{formik.errors.description}</div>
                 ) : null} */}
                 {/* <div className="p-2 rounded-md border border-input"> */}
-                <ActionRichTextEditorDraftW />
+                <ActionRichTextEditorDraftW setContentValue={setContentValue} />
+                {formik.touched.description && formik.errors.description ? (<div className="text-xs text-red-500 flex justify-start">{formik.errors.description}</div>
+                ) : null}
                 {/* </div> */}
             </div>
-            <div className="grid max-w-xs items-center gap-1.5">
+            <div className="grid max-w-xs items-center gap-1.5 mt-24">
                 <Label htmlFor="tags" className="text-left">Tags</Label>
                 <div className="flex justify-start gap-1">
                     {tag && tag.map((t, index) => {
@@ -153,7 +159,7 @@ const CreateTemplate = (props: Props) => {
                     <Input
                         type="tags"
                         id="tags"
-                        placeholder="Add tag from 1 to 3"
+                        placeholder="Add tags from 1 to 3"
                         value={tagInput}
                         onChange={tagInputChangeHandler}
                         onKeyDown={handleKeyDown}
@@ -161,7 +167,7 @@ const CreateTemplate = (props: Props) => {
                     />
                     <div style={{ marginLeft: '-55px' }} className="flex items-center">
                         <Button type="button" variant="secondary" className="h-7 m-[-6px]" onClick={tagAddHandler}>
-                            add
+                            Add
                         </Button>
                     </div>
                 </div>
