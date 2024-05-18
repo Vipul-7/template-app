@@ -78,7 +78,7 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
     const userRepository = AppDataSource.getRepository(User);
 
     const user = await userRepository.findOneBy({
-        email: email
+        email: email,   
     })
 
     const passwordCamparison = await bcrypt.compare(password, user.password);

@@ -5,6 +5,7 @@ import { request } from "../util/Request";
 import { TemplateKeyword } from "../entity/TemplateKeyword";
 import { User } from "../entity/User";
 import { validationResult } from "express-validator";
+import { getRepository } from "typeorm";
 
 const templatesPerPage = 6;
 
@@ -18,7 +19,17 @@ export const getTemplates = async (req: Request, res: Response, next: NextFuncti
         const [templates, count] = await templateRepository.findAndCount({
             skip: (page - 1) * templatesPerPage,
             take: templatesPerPage,
-            relations: ["creator", "keywords"]
+            select:{
+                creator : {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                },
+                keywords:{
+                    id: true,
+                    value: true
+                }
+            }
         });
 
         return res.status(200).json({
@@ -55,7 +66,17 @@ export const getUserTemplates = async (req: request, res: Response, next: NextFu
             },
             skip: (page - 1) * templatesPerPage,
             take: templatesPerPage,
-            relations: ["creator", "keywords"]
+            select:{
+                creator: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                },
+                keywords:{
+                    id: true,
+                    value: true
+                }
+            }
         });
 
         return res.status(200).json({
