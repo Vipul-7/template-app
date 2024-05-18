@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardDescription, CardHeader } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
-import { deleteUser } from "@/lib/http"
+import { PRODUCTION_URL, deleteUser } from "@/lib/http"
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
@@ -67,7 +67,7 @@ const SettingsPage = () => {
       const data = new FormData();
       data.append("avatar", e.target?.files ? e.target.files[0] : "");
       const res = await axios({
-        url: "https://template-app-server.onrender.com/upload/avatar",
+        url: `${PRODUCTION_URL}/upload/avatar`,
         method: "POST",
         data,
         headers: {

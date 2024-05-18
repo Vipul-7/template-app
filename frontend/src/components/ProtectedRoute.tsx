@@ -1,13 +1,11 @@
-import { authContext } from "@/App"
-import { FC, useContext } from "react"
+import { authContext } from "@/App";
+import { FC, useContext, useEffect } from "react";
 import { Navigate } from "react-router";
 
-const ProtectedRoute = ({ Component }: { Component: FC }) => {
-    const { isAuth } = useContext(authContext);
+const ProtectedRoute: FC<{ Component: FC }> = ({ Component }) => {
+    const { isAuth ,user} = useContext(authContext);
 
-    return (
-        isAuth ? <Component /> : <Navigate to="/login" replace={true} />
-    )
-}
+    return isAuth ? <Component /> : <Navigate to="/login" replace={true} />;
+};
 
-export default ProtectedRoute
+export default ProtectedRoute;

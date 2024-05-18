@@ -22,7 +22,7 @@ const NavBar = () => {
         if (!decodedData) return;
         setIsAuth(true);
         setUser(decodedData.user);
-    }, [isAuth]);
+    }, []);
 
     const logoutHandler = () => {
         localStorage.removeItem("token");
